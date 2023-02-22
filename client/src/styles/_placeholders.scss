@@ -12,3 +12,18 @@
     background-color: lighten($color: vars.$clr-accent, $amount: 20);
   }
 }
+
+%uppercase {
+  text-transform: uppercase;
+  font-weight: vars.$fw-bold;
+  font-size: vars.$fs-xs;
+  line-height: 0.69rem;
+  letter-spacing: 0.04em;
+}
+
+%stext {
+  font-size: vars.$fs-xs;
+  font-weight: vars.$fw-medium;
+  line-height: 0.94rem;
+  letter-spacing: 0;
+}

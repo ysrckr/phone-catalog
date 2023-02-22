@@ -17,6 +17,16 @@ export const router = createBrowserRouter([
       {
         path: '/phones',
         element: <PhonesPage />,
+        children: [
+          {
+            path: '/phones',
+            element: <PhonesPage />,
+          },
+          {
+            path: '/phones/:id',
+            element: <PhonesPage />,
+          }
+        ],
       },
       {
         path: '/tablets',
