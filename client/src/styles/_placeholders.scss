@@ -1,0 +1,14 @@
+@use './variables' as vars;
+
+%button-primary {
+  font-size: vars.$fs-sm;
+  font-weight: vars.$fw-medium;
+  line-height: 1,3125rem;
+  letter-spacing: 0;
+  background-color: vars.$clr-accent;
+  color: vars.$clr-white;
+
+  &:hover {
+    background-color: lighten($color: vars.$clr-accent, $amount: 20);
+  }
+}

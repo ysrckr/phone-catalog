@@ -1,0 +1,20 @@
+@use '@/styles/variables' as vars;
+@use '@/styles/mixins' as mixins;
+
+.container {
+  padding: 1rem;
+}
+
+.text {
+  font-size: vars.$fs-base;
+  font-weight: vars.$fw-bold;
+  line-height: 1.3125rem;
+  letter-spacing: 0;
+  color: vars.$clr-white;
+  text-decoration: none;
+
+  @include mixins.mq('tablet') {
+    font-size: vars.$fs-lg;
+  }
+
+}
