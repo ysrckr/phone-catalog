@@ -1,0 +1,16 @@
+@use 'sass:map';
+
+$mq-breakpoints: (
+  'tablet': 640px,
+  'desktop': 1200px,
+);
+
+@mixin mq($breakpoint) {
+  @if map.get($mq-breakpoints, $breakpoint) {
+    @media (min-width: map.get($mq-breakpoints, $breakpoint)) {
+      @content;
+    }
+  } @else {
+    @error "Unknown breakpoint: #{$breakpoint}.";
+  }
+}
