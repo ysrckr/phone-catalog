@@ -62,3 +62,12 @@ p {
   line-height: 1, 3125rem;
   letter-spacing: 0;
 }
+
+a {
+  color: vars.$clr-white;
+  text-decoration: none;
+}
+
+ul {
+  list-style: none;
+}

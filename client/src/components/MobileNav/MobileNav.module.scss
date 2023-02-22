@@ -1,0 +1,13 @@
+.nav {
+  position: relative;
+  .navlist {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    align-items: center;
+    justify-items: center;
+
+    margin: 2rem auto;
+  }
+}
