@@ -13,5 +13,6 @@ It's a full stack web app with react, nodejs, express, postgres and typescript.
 - Axios
 - React-Query
 - Valtio
+- Framer Motion
 
 
