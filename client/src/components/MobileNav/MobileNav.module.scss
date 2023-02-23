@@ -1,11 +1,18 @@
 @use '@/styles/variables' as vars;
 @use '@/styles/placeholders' as holders;
+@use '@/styles/mixins' as mixins;
 
 .container {
-  position: relative;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 10%;
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: space-between;
   text-align: center;
-  width: 100vw;
-  height: 100vh;
+  background-color: vars.$clr-black;
   .nav {
     position: absolute;
     inset: 0;
@@ -31,5 +38,66 @@
         }
       }
     }
+  }
+}
+
+.footer {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
+  height: auto;
+  margin: 0 auto;
+  border-top: 1px solid vars.$clr-secondary;
+
+  div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 1px;
+    background-color: vars.$clr-secondary;
+  }
+}
+
+.icon {
+  position: relative;
+  background: none;
+  border: none;
+  color: vars.$clr-white;
+  cursor: pointer;
+  font-size: 1.5rem;
+
+  svg {
+   cursor: pointer;
+  }
+
+  &:focus {
+    outline: none;
+  }
+}
+
+
+.favorites {
+  position: relative;
+
+  &_active {
+    border-bottom: 3px solid vars.$clr-white;
+  }
+}
+
+.cart {
+  position: relative;
+
+  &_active {
+    border-bottom: 3px solid vars.$clr-white;
   }
 }
