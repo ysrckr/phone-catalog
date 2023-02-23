@@ -7,7 +7,7 @@ export const getAll = async () => {
     return categories;
   } catch (error) {
     console.error(error);
-    return error;
+    throw error;
   }
 };
 
@@ -27,7 +27,7 @@ export const getOne = async (id: string) => {
     return category;
   } catch (error) {
     console.error(error);
-    return error;
+    throw error;
   }
 };
 
@@ -54,7 +54,7 @@ export const create = async ({
     return category;
   } catch (error) {
     console.error(error);
-    return error;
+    throw error;
   }
 };
 
@@ -88,7 +88,7 @@ export const update = async ({
       return category;
     } catch (error) {
       console.error(error);
-      return error;
+      throw error;
     }
   }
 
@@ -104,7 +104,7 @@ export const update = async ({
     return category;
   } catch (error) {
     console.error(error);
-    return error;
+    throw error;
   }
 };
 
@@ -116,13 +116,14 @@ export const remove = async (id: string) => {
   }
 
   try {
-    const category = await prisma.category.delete({
+    await prisma.category.delete({
       where: {
         id,
       },
     });
   } catch (error) {
     console.error(error);
-    return error;
+    throw error;
   }
- };
+};
+

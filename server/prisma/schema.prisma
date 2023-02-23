@@ -37,16 +37,14 @@ model Category {
 model Product {
   id          String   @id @default(uuid())
   name        String
-  slug        String   @unique
-  description String
-  specs       Json
-  quantity    Int
-  images      String[]
-  price       Int
+  description String?
   colors      String[]
   sizes       String[]
+  images      String[]
+  price       Float
+  quantity    Int
+  category    Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  categoryId  String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  category    Category @relation(fields: [categoryId], references: [id])
-  categoryId  String
 }
