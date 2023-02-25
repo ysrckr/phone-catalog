@@ -1,38 +1,47 @@
 import type { Request, Response } from 'express';
-import { z } from 'zod';
 import { create as createUser } from '../services/users';
+import { User, userSchema } from '../types/User';
+import { hashPassword } from '../utils/passwordHash';
 
 export const create = async (req: Request, res: Response) => {
-  const { name, email, password } = req.body;
-
-  const userSchema = z.object({
-    name: z.string().min(1),
-    email: z.string().email(),
-    password: z.string().min(1),
-  });
-
   if (!userSchema.safeParse(req.body).success) {
     return res.status(400).json({ error: 'Invalid user' });
   }
 
+  const { name, email, password, role } = req.body;
+
+  const hashedPassword = hashPassword(password);
+  const user: User = {
+    name,
+    email,
+    password: hashedPassword,
+    role: role || 'USER',
+  };
+
   try {
-    const user = await createUser({ name, email, password });
-    // create a session for the user
-    if (!user) {
-      return res.status(500).json({ error: 'Internal server error' });
+    const { name, email, id } = await createUser(user);
+
+    if (!name || !email) {
+      return res.status(400).json({ error: 'invalid name or email' });
     }
 
     if (!req.session) {
       return res.status(500).json({ error: 'Internal server error' });
     }
 
-    req.session.userId = user.id;
+    // create a session for the user
+    req.session.userId = id;
 
-    console.log(req.session);
+    req.session.save(err => {
+      if (err) {
+        console.error(err);
+        return res.status(500).json({ err });
+      }
+    });
 
-    return res.status(201).json(user);
+    return res.status(201).json({ name, email });
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ error: 'Internal server error' });
+    return res.status(500).json({ error });
   }
 };

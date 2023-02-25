@@ -4,6 +4,7 @@ import express from 'express';
 import session from 'express-session';
 import { sessionStore } from './sessionStore';
 import { router as usersRouter } from '../routes/users';
+import { router as categoriesRouter } from '../routes/categories';
 
 export const startServer = async (port: number) => {
   const app = express();
@@ -36,6 +37,7 @@ export const startServer = async (port: number) => {
   );
 
   app.use('/api/v1/users', usersRouter);
+  app.use('/api/v1/categories', categoriesRouter);
 
   app.listen(port, () => {
     console.log('Server started on http://localhost:' + port);

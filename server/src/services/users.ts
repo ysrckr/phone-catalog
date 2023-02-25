@@ -1,6 +1,6 @@
-import bycrpt from 'bcrypt';
 import z from 'zod';
 import { prisma } from './dbConnection';
+import type { User } from '../types/User';
 
 // Get all users
 export const getAll = async () => {
@@ -13,11 +13,12 @@ export const getAll = async () => {
 };
 
 // Create a new user
-export const create = (user: { name: string; email: string; password: string }) => {
+export const create = (user: User) => {
   const userSchema = z.object({
     name: z.string().min(1),
     email: z.string().email(),
     password: z.string().min(1),
+    role: z.enum(['ADMIN', 'USER']).optional().default('USER'),
   });
 
   const isValidUser = userSchema.safeParse(user).success;
@@ -26,14 +27,13 @@ export const create = (user: { name: string; email: string; password: string }) 
     throw new Error('Invalid user');
   }
 
-  const hashedPassword = bycrpt.hashSync(user.password, 10);
-
   try {
     const newUser = prisma.user.create({
       data: {
         name: user.name,
         email: user.email,
-        password: hashedPassword,
+        password: user.password,
+        role: user.role || 'USER',
       },
     });
     return newUser;

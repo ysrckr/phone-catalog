@@ -4,7 +4,7 @@ import Redis from 'ioredis';
 
 const RedisStore = connectRedis(session);
 
-const redisClient = new Redis();
+export const redisClient = new Redis();
 
 export const sessionStore = new RedisStore({
   client: redisClient,

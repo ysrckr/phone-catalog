@@ -36,7 +36,7 @@ export const create = async ({
   image,
 }: {
   name: string;
-  image: string;
+  image?: string;
 }) => {
   const isValidName = z.string().min(1).safeParse(name).success;
 
