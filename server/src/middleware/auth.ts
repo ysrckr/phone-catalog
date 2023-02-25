@@ -1,37 +1,34 @@
-// import type { NextFunction,Request,Response } from 'express';
-// import { redisClient } from '../setup/sessionStore';
-// import { getById } from '../services/users';
+import type { NextFunction,Request,Response } from 'express';
+import { getById } from '../services/users';
+import {redisClient} from '../setup/redisClient';
 
 
-// export const checkAuth = async (
-//   req: Request,
-//   res: Response,
-//   next: NextFunction,
-// ) => {
-//   const sessionID = req.sessionID;
+export const checkAuth = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
 
-//   if (!sessionID) {
-//     return res.status(401).json({ error: 'Unauthorized' });
-//   }
+  const userId = req.headers.authorization;
 
-//   const session = await redisClient.get('sess:' + sessionID);
-  
-//   if (!session) {
-//     return res.status(401).json({ error: 'Unauthorized' });
-//   }
+  if (!userId) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
 
-//   const sessionData = JSON.parse(session);
+  try {
+    const user = await getById(userId as string);
+    if (!user) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
 
+    if (user.role !== 'ADMIN') {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+    
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: 'Internal server error' });
+  }
 
-//   const user = await getById(sessionData.userId);
-  
-//   if (!user) {
-//     return res.status(401).json({ error: 'Unauthorized' });
-//   }
-
-//   if (user.role !== 'ADMIN') {
-//     return res.status(401).json({ error: 'Unauthorized' });
-//   }
-
-//   next();
-// };
+  next();
+};

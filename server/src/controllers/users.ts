@@ -16,24 +16,14 @@ export const create = async (req: Request, res: Response) => {
     name,
     email,
     password: hashedPassword,
-    role: role || 'USER',
+    role: role || undefined,
   };
-
-  if (!req.session) {
-    return res.status(500).json({ error: 'Internal server error' });
-  }
-
-  console.log('session', req.session.id);
 
   try {
     const { name, email, id } = await createUser(user);
 
     if (!name || !email) {
       return res.status(400).json({ error: 'invalid name or email' });
-    }
-
-    if (!req.session) {
-      return res.status(500).json({ error: 'Internal server error' });
     }
 
     return res.status(201).json({ name, email, id });
