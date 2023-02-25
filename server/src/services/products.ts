@@ -128,7 +128,6 @@ export const update = async({
   const isValidCategoryId = z.string().uuid().safeParse(categoryId).success;
     
   if (
-
     !isValidId ||
     !isValidName ||
     !isValidImages ||
