@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import express from 'express';
 import session from 'express-session';
 import { router as usersRouter } from './routes/users';
+import { sessionStore } from './setup/sessionStore';
 
 dotenv.config();
 
@@ -14,6 +15,7 @@ const app = express();
 app.use(cookieParser());
 
 const sessionConfig = session({
+  store: sessionStore,
   secret: process.env.SESSION_SECRET as string,
   name: 'sid',
   cookie: {
