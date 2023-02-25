@@ -13,3 +13,4 @@ insertFinalLine: true
 plugins:
   - prettier-plugin-sort-imports
   - prettier-plugin-organize-imports
+  - prettier-plugin-tailwind-css
