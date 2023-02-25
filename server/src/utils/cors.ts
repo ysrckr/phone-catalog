@@ -6,8 +6,15 @@ export const adminCors = cors({
   credentials: true,
 });
 
+const whiteList = [process.env.ADMIN_URL, process.env.CLIENT_URL];
 export const clientCors = cors({
-  origin: process.env.CLIENT_URL,
+  origin: (origin, callback) => {
+    if (whiteList.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   methods: ['GET'],
   credentials: true,
 });
