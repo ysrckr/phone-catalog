@@ -42,6 +42,6 @@ export const create = async (req: Request, res: Response) => {
     return res.status(201).json({ name, email });
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ error });
+    return res.status(409).json({ error });
   }
 };

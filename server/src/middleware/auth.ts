@@ -9,9 +9,8 @@ export const checkAuth = async (
   next: NextFunction,
 ) => {
   const sessionID = req.sessionID;
-  const userID = req.session.userId;
 
-  if (!sessionID || !userID) {
+  if (!sessionID) {
     return res.status(401).json({ error: 'Unauthorized' });
   }
 
@@ -23,11 +22,8 @@ export const checkAuth = async (
 
   const sessionData = JSON.parse(session);
 
-  if (sessionData.userId !== userID) {
-    return res.status(401).json({ error: 'Unauthorized' });
-  }
 
-  const user = await getById(userID);
+  const user = await getById(sessionData.userId);
   
   if (!user) {
     return res.status(401).json({ error: 'Unauthorized' });

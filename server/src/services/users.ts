@@ -1,6 +1,10 @@
+import {
+  PrismaClientKnownRequestError,
+  PrismaClientUnknownRequestError,
+} from '@prisma/client/runtime/library';
 import z from 'zod';
-import { prisma } from './dbConnection';
 import type { User } from '../types/User';
+import { prisma } from './dbConnection';
 
 // Get all users
 export const getAll = async () => {
@@ -13,7 +17,7 @@ export const getAll = async () => {
 };
 
 // Create a new user
-export const create = (user: User) => {
+export const create = async (user: User) => {
   const userSchema = z.object({
     name: z.string().min(1),
     email: z.string().email(),
@@ -28,16 +32,21 @@ export const create = (user: User) => {
   }
 
   try {
-    const newUser = prisma.user.create({
-      data: {
-        name: user.name,
-        email: user.email,
-        password: user.password,
-        role: user.role || 'USER',
-      },
+    const newUser = await prisma.user.create({
+      data: user,
     });
     return newUser;
   } catch (error) {
+    if (error instanceof PrismaClientKnownRequestError) {
+      if (error.code === 'P2002') {
+        throw new Error('Email already exists');
+      }
+    }
+
+    if (error instanceof PrismaClientUnknownRequestError) {
+      throw new Error(error.message);
+    }
+
     throw error;
   }
 };
@@ -54,4 +63,4 @@ export const getById = async (id: string) => {
   } catch (error) {
     throw error;
   }
-}
+};
