@@ -33,15 +33,11 @@ export const register = async (req: Request, res: Response) => {
     return res.status(201).json({ name, email, id });
   } catch (error) {
     console.error(error);
-    return res.status(409).json({ error });
+    return res.status(409).json({ error: 'Email already exists' });
   }
 };
 
 export const login = async (req: Request, res: Response) => {
-  if (!userSchema.safeParse(req.body).success) {
-    return res.status(400).json({ error: 'Invalid user' });
-  }
-
   const { email, password } = req.body;
 
   try {

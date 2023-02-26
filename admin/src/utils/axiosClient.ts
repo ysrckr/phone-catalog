@@ -1,7 +1,14 @@
 import axios from 'axios';
 
+export const axiosAdminClient = axios.create({
+  baseURL: import.meta.env.VITE_BASE_ADMIN_API_URL,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
+
 export const axiosClient = axios.create({
-  baseURL: 'http://localhost:8000/api/v1',
+  baseURL: import.meta.env.BASE_URL,
   headers: {
     'Content-Type': 'application/json',
   },
