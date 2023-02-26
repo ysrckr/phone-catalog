@@ -3,7 +3,6 @@ import cors from 'cors';
 export const adminCors = cors({
   origin: process.env.ADMIN_URL,
   methods: ['GET', 'POST', 'PATCH', 'DELETE'],
-  credentials: true,
 });
 
 const whiteList = [process.env.ADMIN_URL, process.env.CLIENT_URL];
@@ -16,5 +15,4 @@ export const clientCors = cors({
     }
   },
   methods: ['GET'],
-  credentials: true,
 });
