@@ -64,3 +64,17 @@ export const getById = async (id: string) => {
     throw error;
   }
 };
+
+// Get a user by email
+export const getByEmail = async (email: string) => {
+  try {
+    const user = prisma.user.findUnique({
+      where: {
+        email,
+      },
+    });
+    return user;
+  } catch (error) {
+    throw error;
+  }
+}
