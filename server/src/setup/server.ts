@@ -1,6 +1,7 @@
 import express from 'express';
+import { checkAuth } from '../middleware/auth';
 import { router as adminRouter } from '../routes/admin';
-import { router as categoriesRouter } from '../routes/categories';
+import { router as categoriesAdminRouter } from '../routes/categoriesAdmin';
 import { adminCors } from '../utils/cors';
 
 export const startServer = (port: number) => {
@@ -9,7 +10,12 @@ export const startServer = (port: number) => {
   app.use(express.json());
 
   app.use('/api/v1/admin', adminCors, adminRouter);
-  app.use('/api/v1/categories', categoriesRouter);
+  app.use(
+    '/api/v1/admin/categories',
+    adminCors,
+    checkAuth,
+    categoriesAdminRouter,
+  );
 
   app.listen(port, () => {
     console.log('Server started on http://localhost:' + port);

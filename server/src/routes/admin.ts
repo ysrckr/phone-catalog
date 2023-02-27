@@ -1,5 +1,6 @@
 import express from 'express';
-import { login, register } from '../controllers/users';
+import { login, logout, register } from '../controllers/users';
+import { checkAuth } from '../middleware/auth';
 
 export const router = express.Router();
 
@@ -7,3 +8,5 @@ export const router = express.Router();
 router.post('/register', register);
 // login
 router.post('/login', login);
+
+router.get('/logout',checkAuth, logout);
