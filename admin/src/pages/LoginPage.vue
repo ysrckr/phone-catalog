@@ -6,23 +6,14 @@ import { useAuthStore } from '@/stores/authStore';
 import { useRouter } from "vue-router";
 import { toast } from 'vue3-toastify';
 import type { AxiosError } from "axios";
-import { useLocalStorage } from "@/hooks/useLocalStorage";
-import { useCheckAuth } from '@/queries/useCheckAuth';
 
-
-const [user, setUser] = useLocalStorage<string>('userId')
 const email = ref('');
 const password = ref('');
-const { data: id, isLoading, isError } = useCheckAuth(user || '')
+
 const router = useRouter();
 const authStore = useAuthStore();
 
 onMounted(() => {
-  if (!isLoading && !isError && id) {
-    authStore.setUserId(user || '');
-    authStore.setIsAuthenticated(true);
-  }
-
   if (authStore.isAuthenticated) {
     router.push('/dashboard');
   }
@@ -47,7 +38,6 @@ const onLogin = async () => {
     if (response.id) {
       authStore.setUserId(response.id);
       authStore.setIsAuthenticated(true);
-      setUser(response.id)
     }
   } catch (error) {
     const err = error as AxiosError;

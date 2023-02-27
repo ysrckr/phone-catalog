@@ -3,9 +3,11 @@ import { useAuthStore } from '@/stores/authStore';
 import { useRouter } from 'vue-router';
 import { logout } from '@/calls/auth/logout';
 import { toast } from 'vue3-toastify';
+import { useLocalStorage } from '@/hooks/useLocalStorage';
 
 const authStore = useAuthStore();
 const router = useRouter();
+const [user, setUser] = useLocalStorage<string>('userId')
 
 const onLogout = async () => {
   try {
@@ -17,6 +19,7 @@ const onLogout = async () => {
 
   authStore.setIsAuthenticated(false);
   authStore.setUserId('');
+  setUser('');
   router.push('/login');
   toast.success('Logged out successfully');
 };

@@ -97,7 +97,7 @@ export const check = async (req: Request, res: Response) => {
       return res.status(401).json({ error: 'Unauthorized' });
     }
 
-    return res.status(200).json({ message: 'Authorized', id });
+    return res.status(200).json(id);
   } catch (error) {
     return res.status(500).json({ error });
   }

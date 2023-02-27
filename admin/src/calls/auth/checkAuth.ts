@@ -1,14 +1,11 @@
 import { axiosAdminClient } from '@/utils/axiosClient';
 
-export const checkAuth = async (id: string) => {
-  try {
-    const response = await axiosAdminClient.get('/check', {
+export const checkAuth = (id: string) => {
+  return axiosAdminClient
+    .get('/check', {
       headers: {
         Authorization: id,
       },
-    });
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
+    })
+    .then(response => response.data);
 };
