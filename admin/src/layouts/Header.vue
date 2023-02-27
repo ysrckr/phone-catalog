@@ -1,14 +1,24 @@
 <script lang="ts" setup>
 import { useAuthStore } from '@/stores/authStore';
 import { useRouter } from 'vue-router';
+import { logout } from '@/calls/auth/logout';
+import { toast } from 'vue3-toastify';
 
 const authStore = useAuthStore();
 const router = useRouter();
 
-const onLogout = () => {
+const onLogout = async () => {
+  try {
+    await logout(authStore.userId);
+  } catch (error) {
+    toast.error('Something went wrong');
+    return;
+  }
+
   authStore.setIsAuthenticated(false);
   authStore.setUserId('');
   router.push('/login');
+  toast.success('Logged out successfully');
 };
 </script>
 

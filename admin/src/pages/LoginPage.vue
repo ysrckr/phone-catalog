@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 
 import { onMounted, ref } from "vue";
-import { login } from "@/calls/login";
+import { login } from "@/calls/auth/login";
 import { useAuthStore } from '@/stores/authStore';
 import { useRouter } from "vue-router";
 import { toast } from 'vue3-toastify';
@@ -43,12 +43,15 @@ const onLogin = async () => {
     const err = error as AxiosError;
     if (err.response?.status === 401) {
       toast.error('Invalid credentials');
+      return;
     } else {
       toast.error('Something went wrong');
+      return;
     }
   } finally {
     if (authStore.isAuthenticated) {
       router.push('/dashboard');
+      toast.success('Logged in successfully');
     }
   }
 };
