@@ -1,5 +1,5 @@
 import z from 'zod';
-import { prisma } from './dbConnection';
+import { prisma } from '../setup/dbConnection';
 
 export const getAll = async () => {
   try {

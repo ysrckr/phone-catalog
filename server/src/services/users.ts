@@ -4,7 +4,7 @@ import {
 } from '@prisma/client/runtime/library';
 import z from 'zod';
 import type { User } from '../types/User';
-import { prisma } from './dbConnection';
+import { prisma } from '../setup/dbConnection';
 
 // Get all users
 export const getAll = async () => {
@@ -67,6 +67,10 @@ export const getById = async (id: string) => {
 
 // Get a user by email
 export const getByEmail = async (email: string) => {
+  if (!email) {
+    throw new Error('Email is required');
+  }
+  
   try {
     const user = prisma.user.findUnique({
       where: {
