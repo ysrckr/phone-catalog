@@ -57,9 +57,9 @@ const onLogin = async () => {
 </script>
 
 <template>
-  <div class="container flex flex-col justify-center px-5 mt-10 text-center">
+  <div class="container flex flex-col justify-center px-5 mt-10 text-center mx-auto">
     <h1 class="text-2xl text-center">Login</h1>
-    <form class="flex flex-col gap-4 mt-5">
+    <form class="flex flex-col gap-4 mt-5 mx-auto w-1/2">
       <input
         type="email"
         placeholder="Email"
