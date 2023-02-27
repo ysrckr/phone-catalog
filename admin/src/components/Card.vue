@@ -1,5 +1,17 @@
+<script lang="ts" setup>
+import { defineProps } from 'vue';
+
+const props = defineProps({
+  title: {
+    type: String,
+    required: true,
+  },
+});
+
+</script>
+
 <template>
-  <div class="text-center bg-green-100 shadow-lg">
-    <h3>Create User</h3>
+  <div class="text-center bg-green-100 drop-shadow-lg font-semibold">
+    <h3 class="mb-5 p-2">{{ props.title }}</h3>
   </div>
 </template>

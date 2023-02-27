@@ -17,11 +17,10 @@ onMounted(() => {
 
 <template>
   <h1 class="text-center mt-4 text-xl font-bold">Dashboard</h1>
-  <div class="container px-4 mt-3 grid grid-cols-2 gap-x-3 gap-y-4 lg:grid-cols-4 xxl:grid-cols-6 items-center"
+  <div class="container px-4 mt-3 grid grid-cols-2 gap-x-4 gap-y-6 lg:grid-cols-4 xxl:grid-cols-6 items-center justify-center"
   >
-    <Card />
-    <Card />
-    <Card />
-    <Card />
+    <Card title="Create A User"/>
+    <Card title="Create A Category"/>
+    <Card title="Create A Product" />
   </div>
 </template>

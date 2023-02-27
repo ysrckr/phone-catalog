@@ -23,7 +23,7 @@ const onLogout = async () => {
 </script>
 
 <template>
-  <header class="flex justify-between items-center bg-green-900 px-5 py-5">
+  <header class="flex justify-between items-center bg-green-900 px-5 py-5 shadow-xl sticky">
     <div>
       <router-link to="/">
         <img src="@/assets/logo.png" alt="logo" />
