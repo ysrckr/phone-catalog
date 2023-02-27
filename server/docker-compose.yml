@@ -1,7 +1,8 @@
 version: "3.8"
+name: "serverDB"
 services:
   db:
-    image: "postgres:13"
+    image: "postgres:alpine"
     restart: always
     ports:
       - "5432:5432"
@@ -11,13 +12,16 @@ services:
       - POSTGRES_USER=yasar
       - POSTGRES_PASSWORD=admin
       - POSTGRES_DB=product_db
-  session:
-    image: "redis:6"
+  cache:
+    image: "redis:alpine"
+    command: "redis-server --requirepass password"
     restart: always
     ports:
       - "6379:6379"
     volumes:
       - redisdata:/data
+    environment:
+      - REDIS_PASSWORD=password
 volumes:
   pgdata:
   redisdata:
