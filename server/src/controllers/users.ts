@@ -1,9 +1,11 @@
 import type { Request, Response } from 'express';
 import {
+  checkCache,
   create as createUser,
+  deleteCache,
   getByEmail as getUserByEmail,
+  setCachedRole,
 } from '../services/users';
-import { redisClient } from '../setup/redisClient';
 import { User, userSchema } from '../types/User';
 import { comparePassword, hashPassword } from '../utils/passwordHash';
 
@@ -29,7 +31,7 @@ export const register = async (req: Request, res: Response) => {
       return res.status(400).json({ error: 'invalid name or email' });
     }
 
-    await redisClient.setex(id, 60 * 60 * 24, role);
+    await setCachedRole(id, role);
 
     return res.status(201).json({ name, email, id });
   } catch (error) {
@@ -56,7 +58,7 @@ export const login = async (req: Request, res: Response) => {
 
     const { id, role, name } = user;
 
-    await redisClient.setex(id, 60 * 60 * 24, role);
+    await setCachedRole(id, role);
 
     return res.status(200).json({ name, email, id });
   } catch (error) {
@@ -73,9 +75,29 @@ export const logout = async (req: Request, res: Response) => {
   }
 
   try {
-    await redisClient.del(id);
+    await deleteCache(id);
 
     return res.status(200).json({ message: 'Logged out' });
+  } catch (error) {
+    return res.status(500).json({ error });
+  }
+};
+
+export const check = async (req: Request, res: Response) => {
+  try {
+    const id = req.headers.authorization;
+
+    if (!id) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    const role = await checkCache(id);
+
+    if (!role || role !== 'ADMIN') {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    return res.status(200).json({ message: 'Authorized', id });
   } catch (error) {
     return res.status(500).json({ error });
   }

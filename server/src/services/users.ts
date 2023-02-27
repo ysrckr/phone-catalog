@@ -3,8 +3,9 @@ import {
   PrismaClientUnknownRequestError,
 } from '@prisma/client/runtime/library';
 import z from 'zod';
-import type { User } from '../types/User';
 import { prisma } from '../setup/dbConnection';
+import { redisClient } from '../setup/redisClient';
+import type { User } from '../types/User';
 
 // Get all users
 export const getAll = async () => {
@@ -70,7 +71,7 @@ export const getByEmail = async (email: string) => {
   if (!email) {
     throw new Error('Email is required');
   }
-  
+
   try {
     const user = prisma.user.findUnique({
       where: {
@@ -81,4 +82,29 @@ export const getByEmail = async (email: string) => {
   } catch (error) {
     throw error;
   }
-}
+};
+
+export const setCachedRole = async (id: string, role: string) => {
+  try {
+    await redisClient.setex(id, 60 * 60 * 24, role);
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const deleteCache = async (id: string) => {
+  try {
+    await redisClient.del(id);
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const checkCache = async (id: string) => {
+  try {
+    const role = await redisClient.get(id);
+    return role;
+  } catch (error) {
+    throw error;
+  }
+};

@@ -1,5 +1,6 @@
 import type { NextFunction,Request,Response } from 'express';
 import {redisClient} from '../setup/redisClient';
+import { checkCache } from '../services/users';
 
 
 export const checkAuth = async (
@@ -15,7 +16,7 @@ export const checkAuth = async (
   }
 
   try {
-    const role = await redisClient.get(userId);
+    const role = await checkCache(userId)
     if (!role) {
       return res.status(401).json({ error: 'Unauthorized' });
     }
