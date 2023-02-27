@@ -11,9 +11,8 @@ const pinia = createPinia();
 
 const app = createApp(App).use(VueQueryPlugin).use(pinia).use(router).use(Vue3Toastify, {
   position: 'top-right',
-  timeout: 3000,
+  timeout: 2000,
   closeIcon: true,
-  pauseOnFocusLoss: true,
   pauseOnHover: true,
 } as ToastContainerOptions);
 app.mount('#app');
