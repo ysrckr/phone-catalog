@@ -1,9 +1,11 @@
 <script lang="ts" setup>
 
 import { onMounted, ref } from "vue";
-import { Email, Password, login } from "@/calls/login";
+import { login } from "@/calls/login";
 import { useAuthStore } from '@/stores/authStore';
 import { useRouter } from "vue-router";
+import { toast } from 'vue3-toastify';
+import type { AxiosError } from "axios";
 
 onMounted(() => {
   if (authStore.isAuthenticated) {
@@ -13,18 +15,18 @@ onMounted(() => {
 
 const email = ref('');
 const password = ref('');
-const errorMessage = ref<string>('');
-
-
 
 const router = useRouter();
 const authStore = useAuthStore();
 
-
-
 const onLogin = async () => {
-  if (!email.value || !password.value) {
-    errorMessage.value = 'Please fill in all fields';
+  if (!email.value) {
+    toast.error('Email is required');
+    return;
+  }
+
+  if (!password.value) {
+    toast.error('Password is required');
     return;
   }
 
@@ -38,14 +40,17 @@ const onLogin = async () => {
       authStore.setIsAuthenticated(true);
     }
   } catch (error) {
-    console.log(error);
+    const err = error as AxiosError;
+    if (err.response?.status === 401) {
+      toast.error('Invalid credentials');
+    } else {
+      toast.error('Something went wrong');
+    }
   } finally {
     if (authStore.isAuthenticated) {
       router.push('/dashboard');
     }
   }
-
-
 };
 
 
