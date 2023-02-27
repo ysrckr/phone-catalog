@@ -59,7 +59,9 @@ const onLogin = async () => {
 <template>
   <div class="container flex flex-col justify-center px-5 mt-10 text-center mx-auto">
     <h1 class="text-2xl text-center">Login</h1>
-    <form class="flex flex-col gap-4 mt-5 mx-auto w-1/2">
+    <form 
+      class="flex flex-col gap-4 mt-5 mx-auto w-1/2" @submit.prevent="onLogin"
+    >
       <input
         type="email"
         placeholder="Email"
@@ -75,9 +77,8 @@ const onLogin = async () => {
         autocomplete="false"
       />
       <button
-        @click.prevent="onLogin"
-        type="button"
-        class="hover:bg-green-400 w-1/3 px-3 py-3 mx-auto mt-2 bg-green-300 rounded-md"
+        type="submit"
+        class="hover:bg-green-400 px-3 py-3 mx-auto mt-2 bg-green-300 rounded-md"
       >
         Login
       </button>

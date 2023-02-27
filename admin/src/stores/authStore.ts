@@ -10,6 +10,7 @@ export const useAuthStore = defineStore('auth', {
     userId: '',
     isAuthenticated: false,
   }),
+  getters: {},
   actions: {
     setIsAuthenticated(isAuthenticated: boolean) {
       this.isAuthenticated = isAuthenticated;

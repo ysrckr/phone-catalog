@@ -1,7 +1,15 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { useAuthStore } from '@/stores/authStore';
+import { useRouter } from 'vue-router';
 
-const { isAuthenticated } = useAuthStore();
+const authStore = useAuthStore();
+const router = useRouter();
+
+const onLogout = () => {
+  authStore.setIsAuthenticated(false);
+  authStore.setUserId('');
+  router.push('/login');
+};
 </script>
 
 <template>
@@ -13,7 +21,7 @@ const { isAuthenticated } = useAuthStore();
     </div>
     <div>
       <ul class="flex justify-between items-center gap-3 text-gray-100">
-        <li v-if="isAuthenticated">
+        <li v-show="authStore.isAuthenticated">
           <router-link 
           to="/dashboard"
           :active-class="'text-green-200 underline'"
@@ -21,11 +29,12 @@ const { isAuthenticated } = useAuthStore();
           Dashboard
         </router-link>
         </li>
-        <li v-if="!isAuthenticated">
-          <router-link to="/login">Login</router-link>
-        </li>
-        <li v-if="isAuthenticated">
-          <router-link to="/logout">Logout</router-link>
+        <li v-show="authStore.isAuthenticated">
+          <button
+            @click="onLogout"
+          >
+            Logout
+          </button>
         </li>
       </ul>
     </div>
