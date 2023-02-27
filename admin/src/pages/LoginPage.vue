@@ -1,40 +1,52 @@
 <script lang="ts" setup>
-import { useLogin } from "@/queries/useLogin";
-import { ref } from "vue";
-import type { Email, Password } from "@/queries/useLogin";
-import { axiosAdminClient } from '../utils/axiosClient';
 
-const email = ref<Email>('');
-const password = ref<Password>('');
-const enable = ref(false);
+import { onMounted, ref } from "vue";
+import { Email, Password, login } from "@/calls/login";
+import { useAuthStore } from '@/stores/authStore';
+import { useRouter } from "vue-router";
 
-const { data: user, isError, isLoading } = useLogin(email.value, password.value, enable.value);
+onMounted(() => {
+  if (authStore.isAuthenticated) {
+    router.push('/dashboard');
+  }
+});
 
-// const onLogin = () => {
-//   if (email.value === '' || password.value === '') {
-//     return;
-//   }
+const email = ref('');
+const password = ref('');
+const errorMessage = ref<string>('');
 
-//   enable.value = true;
 
-//   if (!isError && !isLoading) {
-//     email.value = '';
-//     password.value = '';
-//   }
 
-//   console.log(user);
-// };
+const router = useRouter();
+const authStore = useAuthStore();
 
-const onLogin = () => {
-  axiosAdminClient.post('/login', {
-    email: email.value,
-    password: password.value
-  }).then((res) => {
-    console.log(res);
-  }).catch((err) => {
-    console.log(err);
-  })
-}
+
+
+const onLogin = async () => {
+  if (!email.value || !password.value) {
+    errorMessage.value = 'Please fill in all fields';
+    return;
+  }
+
+  try {
+    const response = await login({
+      email: email.value,
+      password: password.value,
+    });
+    if (response.id) {
+      authStore.setUserId(response.id);
+      authStore.setIsAuthenticated(true);
+    }
+  } catch (error) {
+    console.log(error);
+  } finally {
+    if (authStore.isAuthenticated) {
+      router.push('/dashboard');
+    }
+  }
+
+
+};
 
 
 </script>
@@ -48,23 +60,25 @@ const onLogin = () => {
         placeholder="Email"
         class="rounded-md"
         v-model="email"
+        autocomplete="false"
       />
       <input
         type="password"
         placeholder="Password"
         class="rounded-md"
         v-model="password"
+        autocomplete="false"
       />
       <button
+        @click.prevent="onLogin"
         type="button"
         class="hover:bg-green-400 w-1/3 px-3 py-3 mx-auto mt-2 bg-green-300 rounded-md"
-        @click="onLogin"
       >
         Login
       </button>
     </form>
     <p class="mt-5 font-semibold">
-      <router-link to="/create-user"> Don't have an account? </router-link>
+      <router-link to="/"> Don't have an account? </router-link>
     </p>
   </div>
 </template>
