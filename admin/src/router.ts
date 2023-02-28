@@ -2,9 +2,10 @@ import { RouteLocation, createRouter, createWebHistory } from 'vue-router';
 import MainLayout from './layouts/MainLayout.vue';
 import LoginPage from './pages/LoginPage.vue';
 import DashboardPage from './pages/DashboardPage.vue';
+import UsersPage from './pages/UsersPage.vue';
+import ProductsPage from './pages/ProductsPage.vue';
 
 import { useAuthStore } from '@/stores/authStore';
-
 
 const routes = [
   {
@@ -22,11 +23,18 @@ const routes = [
       {
         path: 'login',
         component: LoginPage,
-        
       },
       {
         path: 'dashboard',
         component: DashboardPage,
+      },
+      {
+        path: 'users',
+        component: UsersPage,
+      },
+      {
+        path: 'products',
+        component: ProductsPage,
       },
     ],
   },

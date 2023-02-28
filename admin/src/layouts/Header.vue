@@ -7,7 +7,7 @@ import { useLocalStorage } from '@/hooks/useLocalStorage';
 
 const authStore = useAuthStore();
 const router = useRouter();
-const [user, setUser] = useLocalStorage<string>('userId')
+const [user, setUser] = useLocalStorage<string>('userId');
 
 const onLogout = async () => {
   try {
@@ -26,28 +26,46 @@ const onLogout = async () => {
 </script>
 
 <template>
-  <header class="flex justify-between items-center bg-green-900 px-5 py-5 shadow-xl sticky">
+  <header
+    class="sticky flex items-center justify-between px-5 py-5 bg-green-900 shadow-xl"
+  >
     <div>
       <router-link to="/">
-        <img src="@/assets/logo.png" alt="logo" />
+        <img
+          src="@/assets/logo.png"
+          alt="logo"
+        />
       </router-link>
     </div>
     <div>
-      <ul class="flex justify-between items-center gap-3 text-gray-100">
+      <ul class="flex items-center justify-between gap-3 text-gray-100 text-xs md:text-lg lg:text-lg">
         <li v-show="authStore.isAuthenticated">
-          <router-link 
-          to="/dashboard"
-          :active-class="'text-green-200 underline'"
+          <router-link
+            to="/dashboard"
+            :active-class="'text-green-200 underline'"
           >
-          Dashboard
-        </router-link>
+            Dashboard
+          </router-link>
         </li>
         <li v-show="authStore.isAuthenticated">
-          <button
-            @click="onLogout"
+          <router-link
+            to="/users"
+            :active-class="'text-green-200 underline'"
           >
-            Logout
-          </button>
+            Users
+          </router-link>
+        </li>
+        <li v-show="authStore.isAuthenticated">
+          <router-link
+            to="/products"
+            :active-class="'text-green-200 underline'"
+          >
+            Products
+          </router-link>
+        </li>
+
+        <li v-show="authStore.isAuthenticated">
+          <button @click="onLogout">Logout</button>
         </li>
       </ul>
     </div>
