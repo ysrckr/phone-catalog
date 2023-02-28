@@ -15,6 +15,8 @@ const password = ref('');
 const router = useRouter();
 const authStore = useAuthStore();
 
+const [userId, setUserId] = useLocalStorage('userId');
+
 onMounted(() => {
   if (authStore.isAuthenticated) {
     router.push('/dashboard');
@@ -52,11 +54,14 @@ const onLogin = async () => {
     }
   } finally {
     if (authStore.isAuthenticated) {
+      setUserId(authStore.userId);
       router.push('/dashboard');
       toast.success('Logged in successfully');
     }
   }
 };
+
+console.log(userId);
 
 
 </script>

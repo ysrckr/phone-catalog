@@ -129,16 +129,16 @@ export const check = async (req: Request, res: Response) => {
     const id = req.headers.authorization;
 
     if (!id) {
-      return res.status(401).json({ error: 'Unauthorized' });
+      return res.status(401).json({ error: 'Unauthorized' }).json(false);
     }
 
     const role = await checkCache(id);
 
     if (!role || role !== 'ADMIN') {
-      return res.status(401).json({ error: 'Unauthorized' });
+      return res.status(401).json({ error: 'Unauthorized' }).json(false);
     }
 
-    return res.status(200).json(id);
+    return res.status(200).json(true)
   } catch (error) {
     return res.status(500).json({ error });
   }

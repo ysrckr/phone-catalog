@@ -7,7 +7,7 @@ import { useLocalStorage } from '@/hooks/useLocalStorage';
 
 const authStore = useAuthStore();
 const router = useRouter();
-const [user, setUser] = useLocalStorage<string>('userId');
+const [, setUser] = useLocalStorage<string>('userId');
 
 const onLogout = async () => {
   try {

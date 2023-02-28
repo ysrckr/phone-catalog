@@ -15,7 +15,7 @@ router.post('/login', login);
 router.get('/logout', checkAuth, logout);
 
 // check if user is logged in
-router.get('/check', checkAuth, check);
+router.get('/check', check);
 
 // get all users
 router.get('/users', checkAuth, getAll);
