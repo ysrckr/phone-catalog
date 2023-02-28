@@ -2,6 +2,7 @@ version: "3.8"
 name: "serverDB"
 services:
   db:
+    container_name: postgres
     image: "postgres:alpine"
     restart: always
     ports:
@@ -13,7 +14,9 @@ services:
       - POSTGRES_PASSWORD=admin
       - POSTGRES_DB=product_db
   cache:
+    container_name: redis
     image: "redis:alpine"
+    command: redis-server --requirepass password
     restart: always
     ports:
       - "6379:6379"

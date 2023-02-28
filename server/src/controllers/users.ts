@@ -8,6 +8,19 @@ import {
 } from '../services/users';
 import { User, userSchema } from '../types/User';
 import { comparePassword, hashPassword } from '../utils/passwordHash';
+import {
+  getAll as getAllUsers
+} from '../services/users';
+
+export const getAll = async (req: Request, res: Response) => {
+  try {
+    const users = await getAllUsers();
+    return res.status(200).json(users);
+  } catch (error) {
+    return res.status(500).json({ error });
+  }
+};
+
 
 export const register = async (req: Request, res: Response) => {
   if (!userSchema.safeParse(req.body).success) {
@@ -36,6 +49,34 @@ export const register = async (req: Request, res: Response) => {
     return res.status(201).json({ name, email, id });
   } catch (error) {
     console.error(error);
+    return res.status(409).json({ error: 'Email already exists' });
+  }
+};
+
+export const registerWithOutRole = async (req: Request, res: Response) => {
+  if (!userSchema.safeParse(req.body).success) {
+    return res.status(400).json({ error: 'Invalid user' });
+  }
+
+  const { name, email, password } = req.body;
+
+  const hashedPassword = hashPassword(password);
+
+  const user: Omit<User, 'role'> = {
+    name,
+    email,
+    password: hashedPassword,
+  };
+
+  try {
+    const { name, email, id } = await createUser(user);
+
+    if (!name || !email) {
+      return res.status(400).json({ error: 'invalid name or email' });
+    }
+
+    return res.status(201).json({ name, email, id });
+  } catch (error) {
     return res.status(409).json({ error: 'Email already exists' });
   }
 };

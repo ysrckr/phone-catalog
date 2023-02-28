@@ -10,15 +10,22 @@ import type { User } from '../types/User';
 // Get all users
 export const getAll = async () => {
   try {
-    const users = prisma.user.findMany();
-    return users;
+    const users = await prisma.user.findMany();
+    const usersToReturn = users.map(user => {
+      return {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+      };
+    });
+    return usersToReturn;
   } catch (error) {
     throw error;
   }
 };
 
 // Create a new user
-export const create = async (user: User) => {
+export const create = async (user: User | Omit<User, 'role'>) => {
   const userSchema = z.object({
     name: z.string().min(1),
     email: z.string().email(),
