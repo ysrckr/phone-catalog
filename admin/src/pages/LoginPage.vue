@@ -6,6 +6,8 @@ import { useAuthStore } from '@/stores/authStore';
 import { useRouter } from "vue-router";
 import { toast } from 'vue3-toastify';
 import type { AxiosError } from "axios";
+import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { checkAuth } from "@/calls/auth/checkAuth";
 
 const email = ref('');
 const password = ref('');

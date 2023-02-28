@@ -1,14 +1,26 @@
 import cors from 'cors';
 
+const adminWhiteList = [process.env.ADMIN_URL_1, process.env.ADMIN_URL_2];
 export const adminCors = cors({
-  origin: process.env.ADMIN_URL,
+  origin: (origin, callback) => {
+    if (adminWhiteList.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   methods: ['GET', 'POST', 'PATCH', 'DELETE'],
 });
 
-const whiteList = [process.env.ADMIN_URL, process.env.CLIENT_URL];
+const clientWhiteList = [
+  process.env.ADMIN_URL_1,
+  process.env.ADMIN_URL_2,
+  process.env.CLIENT_URL_1,
+  process.env.CLIENT_URL_2,
+];
 export const clientCors = cors({
   origin: (origin, callback) => {
-    if (whiteList.indexOf(origin) !== -1) {
+    if (clientWhiteList.indexOf(origin) !== -1) {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
