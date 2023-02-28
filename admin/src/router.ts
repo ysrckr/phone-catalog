@@ -14,8 +14,8 @@ const guard = async (to: RouteLocation, from: RouteLocation, next: any) => {
   try {
     const isAuthenticated = await checkAuth(userId || '');
     if (to.path === '/login' && isAuthenticated) {
-      authStore.setIsAuthenticated(true);
-      authStore.setUserId(userId || '');
+      authStore.setIsAuthenticated(isAuthenticated);
+      authStore.setUserId(userId as string);
       next('/dashboard');
     } else if (to.path !== '/login' && !isAuthenticated) {
       next('/login');
@@ -62,6 +62,7 @@ export const router = createRouter({
   routes,
 });
 
-router.beforeEach((to, from, next) => {
-  guard(to, from, next);
+router.beforeEach(async (to, from, next) => {
+  return guard(to, from, next);
+  
 });

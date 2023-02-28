@@ -17,7 +17,7 @@ export const startServer = (port: number) => {
     store: new MemoryStore(),
   });
 
-  app.use(limiter);
+  // app.use(limiter);
 
   app.use(express.json());
 
