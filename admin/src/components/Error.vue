@@ -1,9 +1,5 @@
 <script setup lang="ts">
-import { defineEmits } from 'vue'
-
-const emit = defineEmits(['refresh'])
-
-
+const emit = defineEmits(['refresh']);
 </script>
 
 <template>

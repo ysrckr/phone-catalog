@@ -1,16 +1,12 @@
-import type { Request, Response } from 'express';
+import type { Request,Response } from 'express';
 import {
-  checkCache,
-  create as createUser,
-  deleteCache,
-  getByEmail as getUserByEmail,
-  setCachedRole,
+checkCache,
+create as createUser,
+deleteCache,getAll as getAllUsers,getByEmail as getUserByEmail,
+setCachedRole
 } from '../services/users';
-import { User, userSchema } from '../types/User';
-import { comparePassword, hashPassword } from '../utils/passwordHash';
-import {
-  getAll as getAllUsers
-} from '../services/users';
+import { User,userSchema } from '../types/User';
+import { comparePassword,hashPassword } from '../utils/passwordHash';
 
 export const getAll = async (req: Request, res: Response) => {
   try {
@@ -125,17 +121,16 @@ export const logout = async (req: Request, res: Response) => {
 };
 
 export const check = async (req: Request, res: Response) => {
+  const id = req.headers.authorization;
   try {
-    const id = req.headers.authorization;
-
     if (!id) {
-      return res.status(401).json({ error: 'Unauthorized' }).json(false);
+      return res.status(401).json(false);
     }
 
     const role = await checkCache(id);
 
     if (!role || role !== 'ADMIN') {
-      return res.status(401).json({ error: 'Unauthorized' }).json(false);
+      return res.status(401).json(false);
     }
 
     return res.status(200).json(true)

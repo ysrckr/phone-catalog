@@ -12,8 +12,8 @@ const authStore = useAuthStore();
 
 const router = useRouter();
 
-onMounted(async () => {
-  if (await authStore.getIsAuthenticated) {
+onMounted(() => {
+  if (authStore.isAuthenticated) {
     router.push('/dashboard');
   }
 });
@@ -34,13 +34,14 @@ const onLogin = async () => {
       email: email.value,
       password: password.value,
     });
-    router.push('/dashboard');
-  } catch {
-    toast.error('Something went wrong');
+  } catch (error) {
+    toast.error('Invalid credentials');
     return;
+  } finally {
+    router.push('/dashboard');
+    toast.success('Login successful');
   }
 };
-
 </script>
 
 <template>
@@ -53,21 +54,38 @@ const onLogin = async () => {
         class="flex flex-col gap-4 mx-auto mt-5"
         @submit.prevent="onLogin"
       >
+        <label
+          for="email"
+          class="sr-only"
+        >
+          Email
+        </label>
         <input
           type="email"
           placeholder="Email"
           class="border-x-black border-2 rounded-md"
           v-model="email"
           autocomplete="false"
+          id="email"
         />
+        <label
+          for="password"
+          class="sr-only"
+        >
+          Password
+        </label>
         <input
           type="password"
           placeholder="Password"
           class="rounded-md"
           v-model="password"
           autocomplete="false"
+          id="password"
         />
-        <v-btn type="submit" class="hover:bg-green-50">
+        <v-btn
+          class="hover:bg-green-50"
+          type="submit"
+        >
           Login
         </v-btn>
       </form>

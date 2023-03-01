@@ -9,32 +9,41 @@ import { checkAuth } from '@/calls/auth/checkAuth';
 const [userId, setUserId] = useLocalStorage('userId');
 
 export interface AuthState {
-  userId: string | null;
+  userId: string;
   isAuthenticated: boolean;
 }
 
 export const useAuthStore = defineStore('auth', {
   state: (): AuthState => ({
-    userId: userId || null,
-    isAuthenticated: userId ? true : false,
+    userId: userId || '',
+    isAuthenticated: false,
   }),
-  getters: {
-    async getIsAuthenticated(state: AuthState) {
-      if (!state.userId) {
-        return false;
+  getters: {},
+  actions: {
+    async checkAuth() {
+      if (userId === '' || !userId) {
+        this.isAuthenticated = false;
+        this.userId = '';
+        return;
       }
 
+      this.userId = userId;
+
       try {
-        const isAuthenticated = await checkAuth(state.userId);
-        state.userId = isAuthenticated ? userId : '';
-        state.isAuthenticated = isAuthenticated;
-        return state.isAuthenticated;
+        const isAuth = await checkAuth(this.userId);
+        console.log('isAuth', isAuth);
+        if (isAuth) {
+          this.isAuthenticated = true;
+        } else {
+          this.isAuthenticated = false;
+          this.userId = '';
+        }
       } catch (error) {
-        toast.error('Error checking auth');
+        this.isAuthenticated = false;
+        this.userId = '';
       }
     },
-  },
-  actions: {
+
     async login(user: LoginUser) {
       try {
         const userFromServer = await login(user);
@@ -51,6 +60,7 @@ export const useAuthStore = defineStore('auth', {
     },
     async logout() {
       if (!this.userId) {
+        setUserId('');
         return;
       }
 

@@ -10,7 +10,6 @@ export const adminCors = cors({
     }
   },
   methods: ['GET', 'POST', 'PATCH', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
 });
 
 const clientWhiteList = [
