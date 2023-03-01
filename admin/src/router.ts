@@ -6,16 +6,15 @@ import UsersPage from './pages/UsersPage.vue';
 import ProductsPage from './pages/ProductsPage.vue';
 import { useLocalStorage } from './hooks/useLocalStorage';
 import { checkAuth } from './calls/auth/checkAuth';
-import { useAuthStore } from './stores/authStore';
 
 const guard = async (to: RouteLocation, from: RouteLocation, next: any) => {
-  const [userId] = useLocalStorage('userId');
-  const authStore = useAuthStore();
+  const [userId, setUserId] = useLocalStorage('userId');
   try {
     const isAuthenticated = await checkAuth(userId || '');
+    if (!isAuthenticated) {
+      setUserId('');
+    }
     if (to.path === '/login' && isAuthenticated) {
-      authStore.setIsAuthenticated(isAuthenticated);
-      authStore.setUserId(userId as string);
       next('/dashboard');
     } else if (to.path !== '/login' && !isAuthenticated) {
       next('/login');
@@ -64,5 +63,4 @@ export const router = createRouter({
 
 router.beforeEach(async (to, from, next) => {
   return guard(to, from, next);
-  
 });

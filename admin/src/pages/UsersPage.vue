@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import UsersItem from '@/components/UsersItem.vue';
-import { useAuthStore } from '@/stores/authStore';
 import { useQuery } from '@tanstack/vue-query';
 import { getAllUsers } from '@/calls/users/getAll';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
@@ -17,16 +16,19 @@ const {
 </script>
 
 <template>
-  <div class="container mx-auto mt-4">
+  <div class="container mx-auto mt-4 flex flex-col justify-center items-center">
     <h1 class="m-6 text-xl font-bold text-center">Users</h1>
-
+    <div v-if="isLoading" class="mx-auto mt-20">
+      <v-progress-circular color="green" model-value="20" :size="47"></v-progress-circular>
+    </div>
+    <div v-if="isError">
+      <h1 class="text-center">Error</h1>
+    </div>
     <div
       class="gap-x-4 gap-y-6 lg:grid-cols-4 xxl:grid-cols-6 container grid items-center justify-center grid-cols-2 px-4 mt-3"
     >
-      <p v-if="isLoading">Loading...</p>
-      <p v-else-if="isError">Error</p>
       <UsersItem
-        v-else
+        v-if="users"
         v-for="user in users"
         :key="user.id"
         :name="user.name"

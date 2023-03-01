@@ -1,16 +1,16 @@
 
 <script setup lang="ts">
 import { onMounted } from "vue";
-import { useAuthStore } from '@/stores/authStore';
 import { useRouter } from "vue-router";
 import Card from '@/components/Card.vue';
 import CreateUser from "@/components/CreateUser.vue";
+import { useLocalStorage } from "@/hooks/useLocalStorage";
 
 const router = useRouter();
-const authStore = useAuthStore();
+const [userId, setUserId] = useLocalStorage('userId');
 
 onMounted(() => {
-  if (!authStore.isAuthenticated) {
+  if (!userId) {
     router.push('/login');
   }
 });

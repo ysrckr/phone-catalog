@@ -29,6 +29,7 @@ specifiers:
   vue-router: '4'
   vue-tsc: ^1.0.24
   vue3-toastify: ^0.1.1
+  vuetify: ^3.1.7
   zod: ^3.20.6
 
 dependencies:
@@ -40,6 +41,7 @@ dependencies:
   vue: 3.2.47
   vue-router: 4.1.6_vue@3.2.47
   vue3-toastify: 0.1.1_vue@3.2.47
+  vuetify: 3.1.7_vue@3.2.47
   zod: 3.20.6
 
 devDependencies:
@@ -2668,6 +2670,25 @@ packages:
       vue: ^3.2.0
     peerDependenciesMeta:
       vue:
+        optional: true
+    dependencies:
+      vue: 3.2.47
+    dev: false
+
+  /vuetify/3.1.7_vue@3.2.47:
+    resolution: {integrity: sha512-1hDQ4ISszEKP9S9nOhUNsv3rZ4Zr1UYn4+G4PIlcS9b16Jy4/VS2KDrLyTG8Shnv9enizg31iF5iVnlj96OEeA==}
+    engines: {node: ^12.20 || >=14.13}
+    peerDependencies:
+      vite-plugin-vuetify: ^1.0.0-alpha.12
+      vue: ^3.2.0
+      vue-i18n: ^9.0.0
+      webpack-plugin-vuetify: ^2.0.0-alpha.11
+    peerDependenciesMeta:
+      vite-plugin-vuetify:
+        optional: true
+      vue-i18n:
+        optional: true
+      webpack-plugin-vuetify:
         optional: true
     dependencies:
       vue: 3.2.47

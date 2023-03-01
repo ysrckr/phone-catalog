@@ -1,23 +1,20 @@
 <script lang="ts" setup>
 
 import { onMounted, ref } from "vue";
-import { login } from "@/calls/auth/login";
-import { useAuthStore } from '@/stores/authStore';
 import { useRouter } from "vue-router";
 import { toast } from 'vue3-toastify';
-import type { AxiosError } from "axios";
-import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { useAuthStore } from "@/stores/authStore";
+import { LoginUser } from "@/types/user";
 
-const email = ref('');
-const password = ref('');
-
-const router = useRouter();
+const email = ref<keyof LoginUser>();
+const password = ref<keyof LoginUser>();
 const authStore = useAuthStore();
 
-const [userId, setUserId] = useLocalStorage('userId');
+const router = useRouter();
 
-onMounted(() => {
-  if (authStore.isAuthenticated) {
+
+onMounted( async () => {
+  if (await authStore.getIsAuthenticated) {
     router.push('/dashboard');
   }
 });
@@ -34,30 +31,16 @@ const onLogin = async () => {
   }
 
   try {
-    const response = await login({
-      email: email.value,
-      password: password.value,
-    });
-    if (response.id) {
-      authStore.setUserId(response.id);
-      authStore.setIsAuthenticated(true);
-    }
-  } catch (error) {
-    const err = error as AxiosError;
-    if (err.response?.status === 401) {
-      toast.error('Invalid credentials');
-      return;
-    } else {
-      toast.error('Something went wrong');
-      return;
-    }
-  } finally {
-    if (authStore.isAuthenticated) {
-      setUserId(authStore.userId);
-      router.push('/dashboard');
-      toast.success('Logged in successfully');
-    }
+    await authStore.login({
+    email: email.value,
+    password: password.value,
+    })
+    router.push('/dashboard');
+  } catch {
+    toast.error('Something went wrong');
+    return;
   }
+
 };
 
 </script>

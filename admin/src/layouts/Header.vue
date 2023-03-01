@@ -1,27 +1,23 @@
 <script lang="ts" setup>
-import { useAuthStore } from '@/stores/authStore';
 import { useRouter } from 'vue-router';
-import { logout } from '@/calls/auth/logout';
 import { toast } from 'vue3-toastify';
-import { useLocalStorage } from '@/hooks/useLocalStorage';
+import { useAuthStore } from '@/stores/authStore';
 
-const authStore = useAuthStore();
+
+
+
 const router = useRouter();
-const [, setUser] = useLocalStorage<string>('userId');
+const authStore = useAuthStore();
+
 
 const onLogout = async () => {
   try {
-    await logout(authStore.userId);
+    await authStore.logout();
+    router.push('/login');
   } catch (error) {
     toast.error('Something went wrong');
     return;
   }
-
-  authStore.setIsAuthenticated(false);
-  authStore.setUserId('');
-  setUser('');
-  router.push('/login');
-  toast.success('Logged out successfully');
 };
 </script>
 
