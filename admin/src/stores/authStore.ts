@@ -31,7 +31,6 @@ export const useAuthStore = defineStore('auth', {
 
       try {
         const isAuth = await checkAuth(this.userId);
-        console.log('isAuth', isAuth);
         if (isAuth) {
           this.isAuthenticated = true;
         } else {

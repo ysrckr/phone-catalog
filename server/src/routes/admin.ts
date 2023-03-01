@@ -19,3 +19,6 @@ router.get('/check', check);
 
 // get all users
 router.get('/users', checkAuth, getAll);
+
+// register user with role
+router.post('/register', register);

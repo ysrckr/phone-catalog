@@ -19,11 +19,11 @@ export const getAll = async (req: Request, res: Response) => {
 
 
 export const register = async (req: Request, res: Response) => {
-  if (!userSchema.safeParse(req.body).success) {
+  if (!userSchema.safeParse(req.body.body).success) {
     return res.status(400).json({ error: 'Invalid user' });
   }
 
-  const { name, email, password, role } = req.body;
+  const { name, email, password, role } = req.body.body;
 
   const hashedPassword = hashPassword(password);
   const user: User = {
