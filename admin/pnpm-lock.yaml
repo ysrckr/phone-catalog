@@ -1,6 +1,8 @@
 lockfileVersion: 5.4
 
 specifiers:
+  '@fortawesome/fontawesome-free': ^6.3.0
+  '@mdi/font': ^7.1.96
   '@tailwindcss/forms': ^0.5.3
   '@tanstack/vue-query': ^4.24.10
   '@types/node': ^18.14.1
@@ -45,6 +47,8 @@ dependencies:
   zod: 3.20.6
 
 devDependencies:
+  '@fortawesome/fontawesome-free': 6.3.0
+  '@mdi/font': 7.1.96
   '@types/node': 18.14.1
   '@typescript-eslint/eslint-plugin': 5.53.0_ny4s7qc6yg74faf3d6xty2ofzy
   '@typescript-eslint/parser': 5.53.0_7kw3g6rralp5ps6mg3uyzz6azm
@@ -306,6 +310,12 @@ packages:
       - supports-color
     dev: true
 
+  /@fortawesome/fontawesome-free/6.3.0:
+    resolution: {integrity: sha512-qVtd5i1Cc7cdrqnTWqTObKQHjPWAiRwjUPaXObaeNPcy7+WKxJumGBx66rfSFgK6LNpIasVKkEgW8oyf0tmPLA==}
+    engines: {node: '>=6'}
+    requiresBuild: true
+    dev: true
+
   /@humanwhocodes/config-array/0.11.8:
     resolution: {integrity: sha512-UybHIJzJnR5Qc/MsD9Kr+RpO2h+/P1GhOwdiLPXK5TWk5sgTdu88bTD9UP+CKbPPh5Rni1u0GjAdYQLemG8g+g==}
     engines: {node: '>=10.10.0'}
@@ -324,6 +334,10 @@ packages:
 
   /@humanwhocodes/object-schema/1.2.1:
     resolution: {integrity: sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==}
+    dev: true
+
+  /@mdi/font/7.1.96:
+    resolution: {integrity: sha512-Imag6npmfkBDi2Ze2jiZVAPTDIKLxhz2Sx82xJ2zctyAU5LYJejLI5ChnDwiD9bMkQfVuzEsI98Q8toHyC+HCg==}
     dev: true
 
   /@nodelib/fs.scandir/2.1.5:
