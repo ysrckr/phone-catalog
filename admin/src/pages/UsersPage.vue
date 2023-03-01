@@ -11,17 +11,28 @@ const {
   data: users,
   isError,
   isLoading,
+  refetch,
 } = useQuery(['users'], {
   queryFn: () => getAllUsers(userId || ''),
 });
 </script>
 
 <template>
-  <div class="container mx-auto mt-4 flex flex-col justify-center items-center">
+  <div class="container flex flex-col items-center justify-center mx-auto mt-4">
     <h1 class="m-6 text-xl font-bold text-center">Users</h1>
-    <Error />
-    <div v-if="isLoading" class="mx-auto mt-20">
-      <v-progress-circular color="green" model-value="20" :size="47"></v-progress-circular>
+    <Error
+      v-if="isError"
+      @refresh="refetch"
+    />
+    <div
+      v-if="isLoading"
+      class="mx-auto mt-20"
+    >
+      <v-progress-circular
+        color="green"
+        model-value="20"
+        :size="47"
+      ></v-progress-circular>
     </div>
     <div v-if="isError">
       <h1 class="text-center">Error</h1>
