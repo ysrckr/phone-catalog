@@ -12,12 +12,6 @@ const authStore = useAuthStore();
 
 const router = useRouter();
 
-onMounted(() => {
-  if (authStore.isAuthenticated) {
-    router.push('/dashboard');
-  }
-});
-
 const onLogin = async () => {
   if (!email.value) {
     toast.error('Email is required');
@@ -37,10 +31,9 @@ const onLogin = async () => {
   } catch (error) {
     toast.error('Invalid credentials');
     return;
-  } finally {
-    router.push('/dashboard');
-    toast.success('Login successful');
   }
+
+  router.push('/dashboard');
 };
 </script>
 
