@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-
-import { onMounted, ref } from "vue";
-import { useRouter } from "vue-router";
+import { onMounted, ref } from 'vue';
+import { useRouter } from 'vue-router';
 import { toast } from 'vue3-toastify';
-import { useAuthStore } from "@/stores/authStore";
-import { LoginUser } from "@/types/user";
+import { useAuthStore } from '@/stores/authStore';
+import { LoginUser } from '@/types/user';
+import { type } from 'os';
 
 const email = ref<keyof LoginUser>();
 const password = ref<keyof LoginUser>();
@@ -12,8 +12,7 @@ const authStore = useAuthStore();
 
 const router = useRouter();
 
-
-onMounted( async () => {
+onMounted(async () => {
   if (await authStore.getIsAuthenticated) {
     router.push('/dashboard');
   }
@@ -32,46 +31,47 @@ const onLogin = async () => {
 
   try {
     await authStore.login({
-    email: email.value,
-    password: password.value,
-    })
+      email: email.value,
+      password: password.value,
+    });
     router.push('/dashboard');
   } catch {
     toast.error('Something went wrong');
     return;
   }
-
 };
 
 </script>
 
 <template>
-  <div class="container flex flex-col justify-center px-5 mt-10 text-center mx-auto">
+  <div
+    class="container flex flex-col justify-center px-5 mx-auto mt-10 text-center"
+  >
     <h1 class="text-2xl text-center">Login</h1>
-    <form 
-      class="flex flex-col gap-4 mt-5 mx-auto w-1/2" @submit.prevent="onLogin"
-    >
-      <input
-        type="email"
-        placeholder="Email"
-        class="rounded-md"
-        v-model="email"
-        autocomplete="false"
-      />
-      <input
-        type="password"
-        placeholder="Password"
-        class="rounded-md"
-        v-model="password"
-        autocomplete="false"
-      />
-      <button
-        type="submit"
-        class="hover:bg-green-400 px-3 py-3 mx-auto mt-2 bg-green-300 rounded-md"
+    <div class="p-5 m-4 bg-green-200 rounded-md">
+      <form
+        class="flex flex-col gap-4 mx-auto mt-5"
+        @submit.prevent="onLogin"
       >
-        Login
-      </button>
-    </form>
+        <input
+          type="email"
+          placeholder="Email"
+          class="border-x-black border-2 rounded-md"
+          v-model="email"
+          autocomplete="false"
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          class="rounded-md"
+          v-model="password"
+          autocomplete="false"
+        />
+        <v-btn type="submit" class="hover:bg-green-50">
+          Login
+        </v-btn>
+      </form>
+    </div>
     <p class="mt-5 font-semibold">
       <router-link to="/"> Don't have an account? </router-link>
     </p>
