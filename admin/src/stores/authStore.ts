@@ -54,7 +54,7 @@ export const useAuthStore = defineStore('auth', {
           toast.error('Invalid user id');
         }
       } catch (error) {
-        toast.error('Error logging in');
+        toast.error('Please check your credentials');
       }
     },
     async logout() {

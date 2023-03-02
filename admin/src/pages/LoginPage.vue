@@ -8,18 +8,28 @@ import { type } from 'os';
 
 const email = ref<keyof LoginUser>();
 const password = ref<keyof LoginUser>();
+const emailError = ref('');
+const passwordError = ref('');
 const authStore = useAuthStore();
 
 const router = useRouter();
 
+const onEmailChange = () => {
+  emailError.value = '';
+};
+
+const onPasswordChange = () => {
+  passwordError.value = '';
+};
+
 const onLogin = async () => {
   if (!email.value) {
-    toast.error('Email is required');
+    emailError.value = 'Email is required';
     return;
   }
 
   if (!password.value) {
-    toast.error('Password is required');
+    passwordError.value = 'Password is required';
     return;
   }
 
@@ -56,11 +66,19 @@ const onLogin = async () => {
         <input
           type="email"
           placeholder="Email"
-          class="border-x-black border-2 rounded-md"
+          class="border-1 rounded-md"
+          :class="{
+            'border-red-500': emailError,
+            ' border-gray-600': !emailError,
+          }"
           v-model="email"
           autocomplete="false"
           id="email"
+          @input="onEmailChange"
         />
+        <span class="text-red-500">
+          {{ emailError }}
+        </span>
         <label
           for="password"
           class="sr-only"
@@ -70,21 +88,31 @@ const onLogin = async () => {
         <input
           type="password"
           placeholder="Password"
-          class="rounded-md"
+          class="border-1 rounded-md"
+          :class="{
+            'border-red-500': emailError,
+            'border-gray-600': !emailError,
+          }"
           v-model="password"
           autocomplete="false"
           id="password"
+          @input="onPasswordChange"
+          min="8"
+          max="50"
         />
-        <v-btn
-          class="hover:bg-green-50"
+        <span class="text-sm text-red-500">
+          {{ passwordError }}
+        </span>
+        <button
           type="submit"
+          class="px-4 py-2 text-white bg-green-500 rounded-md hover:bg-green-400"
         >
           Login
-        </v-btn>
+        </button>
       </form>
     </div>
-    <p class="mt-5 font-semibold">
+    <!-- <p class="mt-5 font-semibold">
       <router-link to="/"> Don't have an account? </router-link>
-    </p>
+    </p> -->
   </div>
 </template>
