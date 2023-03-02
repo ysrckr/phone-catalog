@@ -1,17 +1,15 @@
 import { v2 as cloudinary } from 'cloudinary';
 import express from 'express';
-import fs from 'fs';
-import multer from 'multer';
-import { checkAuth } from '../middleware/auth';
-import { router as adminRouter } from '../routes/admin';
-import { router as categoriesAdminRouter } from '../routes/categoriesAdmin';
-import { adminCors } from '../utils/cors';
 import { limiter } from '../utils/limiter';
-import {
-  CloudinaryResponse,
-  cloudinaryUploadOptions,
-  uploadToCloudinary,
-} from '../utils/uploadToCloudinary';
+import { router as usersAdmin } from '../routes/adminRoutes/usersAdmin';
+import { router as categoriesAdmin } from '../routes/adminRoutes/categoriesAdmin';
+import { checkAuth } from '../middleware/auth';
+import { adminCors } from '../utils/cors';
+// import {
+//   CloudinaryResponse,
+//   cloudinaryUploadOptions,
+//   uploadToCloudinary,
+// } from '../utils/uploadToCloudinary';
 
 export const startServer = (port: number) => {
   const app = express();
@@ -20,8 +18,6 @@ export const startServer = (port: number) => {
   app.use(limiter);
   app.use(express.json());
   app.use(express.urlencoded({ extended: false }));
-  const upload = multer({ dest: 'uploads/temp' });
-  const uploadSingle = upload.single('image');
 
   cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME as string,
@@ -30,42 +26,37 @@ export const startServer = (port: number) => {
   });
 
   // Routes
-  app.use('/api/v1/admin', adminCors, adminRouter);
-  app.use(
-    '/api/v1/admin/categories',
-    adminCors,
-    checkAuth,
-    categoriesAdminRouter,
-  );
+  app.use('/api/v1/admin', adminCors, usersAdmin);
+  app.use('/api/v1/admin/categories', adminCors, checkAuth, categoriesAdmin);
 
-  app.post('/', uploadSingle, async (req, res) => {
-    const file = req.file as Express.Multer.File;
+  // app.post('/', uploadSingle, async (req, res) => {
+  //   const file = req.file as Express.Multer.File;
 
-    if (!file) {
-      return res.status(400).send('No file uploaded');
-    }
+  //   if (!file) {
+  //     return res.status(400).send('No file uploaded');
+  //   }
 
-    let result: CloudinaryResponse | undefined;
+  //   let result: CloudinaryResponse | undefined;
 
-    result = await uploadToCloudinary(file.path, cloudinaryUploadOptions);
+  //   result = await uploadToCloudinary(file.path, cloudinaryUploadOptions);
 
-    if (!result) {
-      return res.status(500).send('Error uploading file');
-    }
+  //   if (!result) {
+  //     return res.status(500).send('Error uploading file');
+  //   }
 
-    const { secure_url, original_filename } = result;
+  //   const { original_filename } = result;
 
-    const filePath = `uploads/temp/${original_filename}`;
+  //   const filePath = `uploads/temp/${original_filename}`;
 
-    fs.unlink(filePath, err => {
-      if (err) {
-        console.error(err);
-        return;
-      }
-    });
+  //   fs.unlink(filePath, err => {
+  //     if (err) {
+  //       console.error(err);
+  //       return;
+  //     }
+  //   });
 
-    res.send(result);
-  });
+  //   res.send(result);
+  // });
 
   // Start server
   app.listen(port, () => {

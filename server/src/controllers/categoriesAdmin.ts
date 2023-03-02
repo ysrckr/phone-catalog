@@ -1,6 +1,7 @@
 import type { Request, Response } from 'express';
 import { create as createCategory } from '../services/categories';
-import { upload } from '../setup/fileUpload';
+import { uploadToCloudinary, cloudinaryUploadOptions } from '../utils/uploadToCloudinary';
+
 
 export const create = async (req: Request, res: Response) => {
   const { name } = req.body.body;
@@ -11,16 +12,23 @@ export const create = async (req: Request, res: Response) => {
   }
 
   if (image) {
-
+    const { path } = image;
+    const result = await uploadToCloudinary(path, cloudinaryUploadOptions);
+    const newCategory = {
+      name,
+      image: result?.secure_url,
+    };
+    try {
+      const category = await createCategory(newCategory);
+      return res.status(201).json(category);
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ error: 'Internal server error' });
+    }
   }
 
-  const newCategory = {
-    name,
-  };
-
   try {
-    const category = await createCategory(newCategory);
-    console.log(category);
+    const category = await createCategory({ name });
     return res.status(201).json(category);
   } catch (error) {
     console.error(error);
