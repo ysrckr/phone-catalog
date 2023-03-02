@@ -34,6 +34,7 @@ It's a full stack web app with react, nodejs, express, postgres and typescript.
 - Node
 - TS
 - Express
+- Cors
 - Prisma
 - Postgresql
 - Redis
