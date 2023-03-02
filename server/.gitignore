@@ -137,3 +137,8 @@ dist
 
 # Database
 pgdata
+
+.env*
+.flaskenv*
+!.env.project
+!.env.vault

@@ -28,3 +28,8 @@ Temporary Items
 
 Makefile
 startdev.sh
+
+.env*
+.flaskenv*
+!.env.project
+!.env.vault
