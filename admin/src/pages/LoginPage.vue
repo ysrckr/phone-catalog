@@ -52,60 +52,70 @@ const onLogin = async () => {
     class="container flex flex-col justify-center px-5 mx-auto mt-10 text-center"
   >
     <h1 class="text-2xl text-center">Login</h1>
-    <div class="p-5 m-4 bg-green-200 rounded-md">
+    <div class="p-5 m-4 mt-8 bg-green-100 rounded-md mx-auto shadow-sm shadow-green-200">
       <form
-        class="flex flex-col gap-4 mx-auto mt-5"
+        class="flex flex-col gap-6 mx-auto mt-5"
         @submit.prevent="onLogin"
       >
-        <label
-          for="email"
-          class="sr-only"
-        >
-          Email
-        </label>
-        <input
-          type="email"
-          placeholder="Email"
-          class="border-1 rounded-md"
-          :class="{
-            'border-red-500': emailError,
-            ' border-gray-600': !emailError,
-          }"
-          v-model="email"
-          autocomplete="false"
-          id="email"
-          @input="onEmailChange"
-        />
-        <span class="text-red-500">
-          {{ emailError }}
-        </span>
-        <label
-          for="password"
-          class="sr-only"
-        >
-          Password
-        </label>
-        <input
-          type="password"
-          placeholder="Password"
-          class="border-1 rounded-md"
-          :class="{
-            'border-red-500': emailError,
-            'border-gray-600': !emailError,
-          }"
-          v-model="password"
-          autocomplete="false"
-          id="password"
-          @input="onPasswordChange"
-          min="8"
-          max="50"
-        />
-        <span class="text-sm text-red-500">
-          {{ passwordError }}
-        </span>
+        <div class="relative">
+          <label
+            for="email"
+            class="sr-only"
+          >
+            Email
+          </label>
+          <input
+            type="email"
+            placeholder="Email"
+            class="border-1 rounded-md mx-auto focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+            :class="{
+              'border-red-500': emailError,
+              ' border-gray-600': !emailError,
+            }"
+            v-model="email"
+            autocomplete="false"
+            id="email"
+            @input="onEmailChange"
+          />
+          <span
+             class="text-sm text-red-500 absolute top-11 left-0 italic"
+             v-show="emailError"
+          >
+            {{ emailError }}
+          </span>
+        </div>
+          <div class="relative">
+            <label
+              for="password"
+              class="sr-only"
+            >
+              Password
+            </label>
+            <input
+              type="password"
+              placeholder="Password"
+              class="border-1 rounded-md mx-auto relative mb-4 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+              :class="{
+                'border-red-500': passwordError,
+                'border-gray-600': !passwordError,
+              }"
+              v-model="password"
+              autocomplete="false"
+              id="password"
+              @input="onPasswordChange"
+              min="8"
+              max="50"
+            />
+            <span
+              class="text-sm text-red-500 absolute top-11 left-0 italic"
+              v-show="passwordError"
+            >
+              {{ passwordError }}
+            </span>
+          </div>
         <button
           type="submit"
-          class="px-4 py-2 text-white bg-green-500 rounded-md hover:bg-green-400"
+          class="px-4 py-2 text-white bg-green-500 rounded-md hover:bg-green-400 mx-auto"
         >
           Login
         </button>
