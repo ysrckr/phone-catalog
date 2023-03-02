@@ -43,9 +43,10 @@ export const create = async (req: Request, res: Response) => {
       return res.status(500).json({ error: 'Internal server error' });
     }
   }
-
   try {
-    const category = await createCategory({ name });
+    const category = await createCategory({
+      name,
+    });
     return res.status(201).json(category);
   } catch (error) {
     console.error(error);
