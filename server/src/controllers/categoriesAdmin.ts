@@ -1,7 +1,10 @@
 import type { Request, Response } from 'express';
+import fs from 'fs';
 import { create as createCategory } from '../services/categories';
-import { uploadToCloudinary, cloudinaryUploadOptions } from '../utils/uploadToCloudinary';
-
+import {
+  cloudinaryUploadOptions,
+  uploadToCloudinary,
+} from '../utils/uploadToCloudinary';
 
 export const create = async (req: Request, res: Response) => {
   const { name } = req.body.body;
@@ -13,13 +16,27 @@ export const create = async (req: Request, res: Response) => {
 
   if (image) {
     const { path } = image;
-    const result = await uploadToCloudinary(path, cloudinaryUploadOptions);
-    const newCategory = {
-      name,
-      image: result?.secure_url,
-    };
     try {
+      const result = await uploadToCloudinary(path, cloudinaryUploadOptions);
+
+      if (!result) {
+        return res.status(500).json({ error: 'Error uploading file' });
+      }
+
+      const newCategory = {
+        name,
+        image: result.secure_url,
+      };
       const category = await createCategory(newCategory);
+
+      const filePath = `uploads/temp/${result.originalname}`;
+
+      fs.unlink(filePath, err => {
+        if (err) {
+          console.error(err);
+          return;
+        }
+      });
       return res.status(201).json(category);
     } catch (error) {
       console.error(error);
@@ -35,4 +52,3 @@ export const create = async (req: Request, res: Response) => {
     return res.status(500).json({ error: 'Internal server error' });
   }
 };
-
