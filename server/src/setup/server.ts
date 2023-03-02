@@ -5,6 +5,7 @@ import { router as usersAdmin } from '../routes/adminRoutes/usersAdmin';
 import { router as categoriesAdmin } from '../routes/adminRoutes/categoriesAdmin';
 import { checkAuth } from '../middleware/auth';
 import { adminCors } from '../utils/cors';
+import cors from 'cors';
 // import {
 //   CloudinaryResponse,
 //   cloudinaryUploadOptions,
@@ -15,6 +16,7 @@ export const startServer = (port: number) => {
   const app = express();
 
   // Middleware
+  app.use(cors());
   app.use(limiter);
   app.use(express.json());
   app.use(express.urlencoded({ extended: false }));
@@ -26,8 +28,8 @@ export const startServer = (port: number) => {
   });
 
   // Routes
-  app.use('/api/v1/admin', adminCors, usersAdmin);
-  app.use('/api/v1/admin/categories', adminCors, checkAuth, categoriesAdmin);
+  app.use('/api/v1/admin', usersAdmin);
+  app.use('/api/v1/admin/categories', categoriesAdmin);
 
   // app.post('/', uploadSingle, async (req, res) => {
   //   const file = req.file as Express.Multer.File;

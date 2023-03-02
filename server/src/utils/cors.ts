@@ -29,3 +29,9 @@ export const clientCors = cors({
   },
   methods: ['GET'],
 });
+
+export const devCors = cors({
+  origin: '*',
+  methods: ['GET', 'POST', 'PATCH', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+});

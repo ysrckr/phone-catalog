@@ -7,7 +7,7 @@ import {
 } from '../utils/uploadToCloudinary';
 
 export const create = async (req: Request, res: Response) => {
-  const { name } = req.body.body;
+  const { name } = req.body;
   const image = req.file;
 
   if (!name) {
@@ -29,7 +29,7 @@ export const create = async (req: Request, res: Response) => {
       };
       const category = await createCategory(newCategory);
 
-      const filePath = `uploads/temp/${result.originalname}`;
+      const filePath = `uploads/temp/${result.original_filename}`;
 
       fs.unlink(filePath, err => {
         if (err) {
