@@ -70,6 +70,13 @@ const onSubmit = () => {
 
   mutate(user);
 };
+
+const onPasswordChange = () => {
+  isPasswordValid.value = true;
+  if (password.value === confirmPassword.value) {
+    isPassworsMatch.value = true;
+  }
+};
 </script>
 
 <template>
@@ -92,6 +99,7 @@ const onSubmit = () => {
           v-model="name"
           class="border-1 drop-shadow-sm border-gray-300"
           :class="{ 'border-red-500': !isNameValid }"
+          @input="isNameValid = true"
         />
         <p
           v-show="!isNameValid"
@@ -115,6 +123,7 @@ const onSubmit = () => {
           v-model="email"
           class="border-1 drop-shadow-sm border-gray-300"
           :class="{ 'border-red-500': !isEmailValid }"
+          @input="isEmailValid = true"
         />
         <p
           v-show="!isEmailValid"
@@ -137,6 +146,7 @@ const onSubmit = () => {
           v-model="password"
           class="border-1 drop-shadow-sm border-gray-300"
           :class="{ 'border-red-500': !isPasswordValid }"
+          @input="onPasswordChange"
         />
         <p
           v-show="!isPasswordValid"
