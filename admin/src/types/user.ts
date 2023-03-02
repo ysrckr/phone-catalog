@@ -8,7 +8,6 @@ export const loginUserSchema = z.object({
 
 export type LoginUser = z.infer<typeof loginUserSchema>;
 
-
 export const CreateUserSchema = z
   .object({
     name: z.string().min(3).max(50),
@@ -17,7 +16,7 @@ export const CreateUserSchema = z
     confirmPassword: z.string().min(8).max(50),
     role: z.enum(['ADMIN', 'USER', 'Choose A Role']),
   })
-  .superRefine(({ confirmPassword, password }, ctx) => {
+  .superRefine(({ confirmPassword, password, name, email }, ctx) => {
     if (confirmPassword !== password) {
       ctx.addIssue({
         code: 'custom',

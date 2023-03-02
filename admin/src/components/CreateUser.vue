@@ -14,6 +14,10 @@ const email = ref<string>();
 const password = ref<string>();
 const confirmPassword = ref<string>();
 const role = ref<'USER' | 'ADMIN' | 'Choose A Role'>('Choose A Role');
+const isNameValid = ref<boolean>(true);
+const isEmailValid = ref<boolean>(true);
+const isPasswordValid = ref<boolean>(true);
+const isPassworsMatch = ref<boolean>(true);
 
 const { mutate } = useMutation({
   mutationFn: (user: CreateUser) => createUser(user, authStore.userId),
@@ -31,6 +35,7 @@ const onSubmit = () => {
   if (role.value === 'Choose A Role') {
     role.value = 'USER';
   }
+
   const user: CreateUser = {
     name: name.value as string,
     email: email.value as string,
@@ -39,8 +44,24 @@ const onSubmit = () => {
     role: role.value || 'USER',
   };
 
-  const isValid = CreateUserSchema.safeParse(user).success;
-  if (!isValid) {
+  const userResult = CreateUserSchema.safeParse(user);
+  if (!userResult.success) {
+    const errors = userResult.error.issues;
+    const errorMessages = errors.reduce((acc, error) => {
+      acc[error.path[0]] = error.message;
+      return acc;
+    }, {} as Record<string, string>);
+
+    if (errorMessages.name) {
+      isNameValid.value = false;
+    } else if (errorMessages.email) {
+      isEmailValid.value = false;
+    } else if (errorMessages.password) {
+      isPasswordValid.value = false;
+    } else if (password.value !== confirmPassword.value) {
+      isPassworsMatch.value = false;
+    }
+
     return;
   }
 
@@ -65,67 +86,81 @@ const onSubmit = () => {
         autocomplete="true"
         id="name"
         v-model="name"
+        class="border-1 drop-shadow-sm border-gray-300"
+        :class="{ 'border-red-500': !isNameValid }"
       />
-      <label
-        class="sr-only"
-        for="email"
-        >Email</label
+      <p
+        v-show="!isNameValid"
+        class="text-xs italic text-red-500"
       >
-      <input
-        type="email"
-        placeholder="Email"
-        autocomplete="true"
-        id="email"
-        v-model="email"
-      />
-      <label
-        class="sr-only"
-        for="password"
-        >Password</label
-      >
-      <input
-        type="password"
-        placeholder="Password"
-        id="password"
-        autocomplete="false"
-        v-model="password"
-      />
-      <label
-        class="sr-only"
-        for="confirm-password"
-        >Confirm Password</label
-      >
-      <input
-        type="password"
-        placeholder="Confirm Password"
-        autocomplete="false"
-        id="confirm-password"
-        v-model="confirmPassword"
-      />
-      <label
-        class="sr-only"
-        for="role"
-        >Role</label
-      >
-      <select
-        id="role"
-        v-model="role"
-      >
-        <option
-          disabled
-          value="Choose A Role"
+        Name is required.
+      </p>
+        <label
+          class="sr-only"
+          for="email"
+          >Email</label
         >
-          Choose A Role
-        </option>
-        <option value="ADMIN">Admin</option>
-        <option value="USER">User</option>
-      </select>
-      <button
-        type="submit"
-        class="drop-shadow w-20 p-2 mx-auto text-sm text-center bg-white rounded"
-      >
-        Create
-      </button>
+        <input
+          type="email"
+          placeholder="Email"
+          autocomplete="true"
+          id="email"
+          v-model="email"
+          class="border-1 drop-shadow-sm border-gray-300"
+          :class="{ 'border-red-500': !isEmailValid }"
+        />
+        <label
+          class="sr-only"
+          for="password"
+          >Password</label
+        >
+        <input
+          type="password"
+          placeholder="Password"
+          id="password"
+          autocomplete="false"
+          v-model="password"
+          class="border-1 drop-shadow-sm border-gray-300"
+          :class="{ 'border-red-500': !isPasswordValid }"
+        />
+        <label
+          class="sr-only"
+          for="confirm-password"
+          >Confirm Password</label
+        >
+        <input
+          type="password"
+          placeholder="Confirm Password"
+          autocomplete="false"
+          id="confirm-password"
+          v-model="confirmPassword"
+          class="border-1 drop-shadow-sm border-gray-300"
+        />
+        <label
+          class="sr-only"
+          for="role"
+          >Role</label
+        >
+        <select
+          id="role"
+          v-model="role"
+          class="border-1 drop-shadow-sm border-gray-300"
+        >
+          <option
+            disabled
+            value="Choose A Role"
+          >
+            Choose A Role
+          </option>
+          <option value="ADMIN">Admin</option>
+          <option value="USER">User</option>
+        </select>
+        <button
+          type="submit"
+          class="drop-shadow hover:bg-green-500 w-20 p-2 mx-auto text-sm text-center text-white bg-green-600 rounded"
+        >
+          Create
+        </button>
     </form>
   </div>
 </template>

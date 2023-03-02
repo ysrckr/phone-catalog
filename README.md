@@ -6,7 +6,7 @@ It's a full stack web app with react, nodejs, express, postgres and typescript.
 
 ### Frontend
 
-- React
+- ReactJS
 - React-Router
 - TS
 - SCSS
@@ -18,7 +18,7 @@ It's a full stack web app with react, nodejs, express, postgres and typescript.
 
 ### Admin
 
-- Vue
+- VueJS
 - Vue-Router
 - TS
 - Axios
@@ -37,3 +37,6 @@ It's a full stack web app with react, nodejs, express, postgres and typescript.
 - Prisma
 - Postgresql
 - Redis
+- Multer
+- Bcrypt
+- Cloudinary
