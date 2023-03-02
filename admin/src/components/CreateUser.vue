@@ -5,6 +5,8 @@ import { createUser } from '@/calls/users/create';
 import { CreateUserSchema, CreateUser } from '@/types/user';
 import { useAuthStore } from '@/stores/authStore';
 import { useQueryClient } from '@tanstack/vue-query';
+import { Password } from '../calls/auth/login';
+import { toast } from 'vue3-toastify';
 
 const queryClient = useQueryClient();
 const authStore = useAuthStore();
@@ -59,6 +61,7 @@ const onSubmit = () => {
     } else if (errorMessages.password) {
       isPasswordValid.value = false;
     } else if (password.value !== confirmPassword.value) {
+      toast.error('Passwords do not match');
       isPassworsMatch.value = false;
     }
 
@@ -72,29 +75,33 @@ const onSubmit = () => {
 <template>
   <div class="container px-4 pb-5 mx-auto">
     <form
-      class="gap-y-4 flex flex-col items-center justify-center"
+      class="gap-x-4 gap-y-6 lg:grid-cols-2 xxl:grid-cols-4 flex flex-col items-center justify-center"
       @submit.prevent="onSubmit"
     >
-      <label
-        class="sr-only"
-        for="name"
-        >Name</label
-      >
-      <input
-        type="text"
-        placeholder="Name"
-        autocomplete="true"
-        id="name"
-        v-model="name"
-        class="border-1 drop-shadow-sm border-gray-300"
-        :class="{ 'border-red-500': !isNameValid }"
-      />
-      <p
-        v-show="!isNameValid"
-        class="text-xs italic text-red-500"
-      >
-        Name is required.
-      </p>
+      <div class="relative">
+        <label
+          class="sr-only"
+          for="name"
+          >Name</label
+        >
+        <input
+          type="text"
+          placeholder="Name"
+          autocomplete="true"
+          id="name"
+          v-model="name"
+          class="border-1 drop-shadow-sm border-gray-300"
+          :class="{ 'border-red-500': !isNameValid }"
+        />
+        <p
+          v-show="!isNameValid"
+          class="text-xs italic text-red-500 absolute bottom-[-3] left-0"
+        >
+          Name is required.
+        </p>
+      </div>
+
+      <div class="relative">
         <label
           class="sr-only"
           for="email"
@@ -109,6 +116,14 @@ const onSubmit = () => {
           class="border-1 drop-shadow-sm border-gray-300"
           :class="{ 'border-red-500': !isEmailValid }"
         />
+        <p
+          v-show="!isEmailValid"
+          class="text-xs italic text-red-500 absolute bottom-[-3] left-0"
+        >
+          Email is required.
+        </p>
+      </div>
+      <div class="relative">
         <label
           class="sr-only"
           for="password"
@@ -123,44 +138,51 @@ const onSubmit = () => {
           class="border-1 drop-shadow-sm border-gray-300"
           :class="{ 'border-red-500': !isPasswordValid }"
         />
-        <label
-          class="sr-only"
-          for="confirm-password"
-          >Confirm Password</label
+        <p
+          v-show="!isPasswordValid"
+          class="text-xs italic text-red-500 absolute bottom-[-3] left-0"
         >
-        <input
-          type="password"
-          placeholder="Confirm Password"
-          autocomplete="false"
-          id="confirm-password"
-          v-model="confirmPassword"
-          class="border-1 drop-shadow-sm border-gray-300"
-        />
-        <label
-          class="sr-only"
-          for="role"
-          >Role</label
+          Password is required.
+        </p>
+      </div>
+      <label
+        class="sr-only"
+        for="confirm-password"
+        >Confirm Password</label
+      >
+      <input
+        type="password"
+        placeholder="Confirm Password"
+        autocomplete="false"
+        id="confirm-password"
+        v-model="confirmPassword"
+        class="border-1 drop-shadow-sm border-gray-300"
+      />
+      <label
+        class="sr-only"
+        for="role"
+        >Role</label
+      >
+      <select
+        id="role"
+        v-model="role"
+        class="border-1 drop-shadow-sm border-gray-300"
+      >
+        <option
+          disabled
+          value="Choose A Role"
         >
-        <select
-          id="role"
-          v-model="role"
-          class="border-1 drop-shadow-sm border-gray-300"
-        >
-          <option
-            disabled
-            value="Choose A Role"
-          >
-            Choose A Role
-          </option>
-          <option value="ADMIN">Admin</option>
-          <option value="USER">User</option>
-        </select>
-        <button
-          type="submit"
-          class="drop-shadow hover:bg-green-500 w-20 p-2 mx-auto text-sm text-center text-white bg-green-600 rounded"
-        >
-          Create
-        </button>
+          Choose A Role
+        </option>
+        <option value="ADMIN">Admin</option>
+        <option value="USER">User</option>
+      </select>
+      <button
+        type="submit"
+        class="drop-shadow hover:bg-green-500 w-20 p-2 mx-auto text-sm text-center text-white bg-green-600 rounded"
+      >
+        Create
+      </button>
     </form>
   </div>
 </template>
