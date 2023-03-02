@@ -5,11 +5,6 @@ import { router as usersAdmin } from '../routes/adminRoutes/usersAdmin';
 import { router as categoriesAdmin } from '../routes/adminRoutes/categoriesAdmin';
 import { checkAuth } from '../middleware/auth';
 import { adminCors } from '../utils/cors';
-// import {
-//   CloudinaryResponse,
-//   cloudinaryUploadOptions,
-//   uploadToCloudinary,
-// } from '../utils/uploadToCloudinary';
 
 export const startServer = (port: number) => {
   const app = express();
@@ -28,35 +23,6 @@ export const startServer = (port: number) => {
   // Routes
   app.use('/api/v1/admin', adminCors, usersAdmin);
   app.use('/api/v1/admin/categories', adminCors, checkAuth, categoriesAdmin);
-
-  // app.post('/', uploadSingle, async (req, res) => {
-  //   const file = req.file as Express.Multer.File;
-
-  //   if (!file) {
-  //     return res.status(400).send('No file uploaded');
-  //   }
-
-  //   let result: CloudinaryResponse | undefined;
-
-  //   result = await uploadToCloudinary(file.path, cloudinaryUploadOptions);
-
-  //   if (!result) {
-  //     return res.status(500).send('Error uploading file');
-  //   }
-
-  //   const { original_filename } = result;
-
-  //   const filePath = `uploads/temp/${original_filename}`;
-
-  //   fs.unlink(filePath, err => {
-  //     if (err) {
-  //       console.error(err);
-  //       return;
-  //     }
-  //   });
-
-  //   res.send(result);
-  // });
 
   // Start server
   app.listen(port, () => {
