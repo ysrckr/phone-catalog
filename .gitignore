@@ -26,9 +26,6 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
-Makefile
-startdev.sh
-
 .env*
 .flaskenv*
 !.env.project
