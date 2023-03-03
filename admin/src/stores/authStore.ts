@@ -18,7 +18,11 @@ export const useAuthStore = defineStore('auth', {
     userId: userId || '',
     isAuthenticated: false,
   }),
-  getters: {},
+  getters: {
+    getUserId(): string { 
+      return this.userId;
+    },
+  },
   actions: {
     async checkAuth() {
       if (userId === '' || !userId) {

@@ -2,10 +2,7 @@
 import UsersItem from '@/components/UsersItem.vue';
 import { useQuery } from '@tanstack/vue-query';
 import { getAllUsers } from '@/api/users/getAll';
-import { useLocalStorage } from '@/hooks/useLocalStorage';
 import Error from '@/components/Error.vue';
-
-const [userId] = useLocalStorage('userId');
 
 const {
   data: users,
@@ -13,7 +10,7 @@ const {
   isLoading,
   refetch,
 } = useQuery(['users'], {
-  queryFn: () => getAllUsers(userId || ''),
+  queryFn: () => getAllUsers(),
 });
 </script>
 

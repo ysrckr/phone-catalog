@@ -22,7 +22,7 @@ const isPasswordValid = ref<boolean>(true);
 const isPassworsMatch = ref<boolean>(true);
 
 const { mutate } = useMutation({
-  mutationFn: (user: CreateUser) => createUser(user, authStore.userId),
+  mutationFn: (user: CreateUser) => createUser(user),
   onSuccess: () => {
     queryClient.invalidateQueries(['users']);
     name.value = '';

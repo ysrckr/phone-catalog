@@ -29,8 +29,8 @@ const vuetify = createVuetify({
 const pinia = createPinia();
 
 const app = createApp(App)
-  .use(VueQueryPlugin)
   .use(pinia)
+  .use(VueQueryPlugin)
   .use(router)
   .use(vuetify)
   .use(Vue3Toastify, {

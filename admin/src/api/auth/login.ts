@@ -1,5 +1,6 @@
-import { axiosAdminClient } from "@/utils/axiosClient";
+
 import { z } from 'zod';
+import { axiosAdminClient } from '@/utils/axiosClient';
 
 export const emailShema = z.string().email();
 export const passwordShema = z.string().min(8);

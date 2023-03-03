@@ -1,8 +1,27 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
+import { useMutation } from '@tanstack/vue-query';
+import { createCategory } from '@/api/category/create';
+import { toast } from 'vue3-toastify';
+import { useQueryClient } from '@tanstack/vue-query';
+
+
 
 const name = ref<string>();
 const image = ref<File>();
+
+const queryClient = useQueryClient();
+const createCategoryMutation = useMutation({
+  mutationFn: createCategory,
+  onSuccess: () => {
+    toast.success('Category created');
+    queryClient.invalidateQueries(['categories']);
+  },
+  onError: () => {
+    toast.error('Error creating category');
+  },
+});
+
 
 const onFileChange = (e: Event) => {
   const target = e.target as HTMLInputElement;
@@ -10,12 +29,14 @@ const onFileChange = (e: Event) => {
   if (file) {
     image.value = file;
   }
+ 
 };
 
 const onSubmit = () => {
   const formData = new FormData();
   formData.append('name', name.value as string);
   formData.append('image', image.value as File);
+  createCategoryMutation.mutate(formData);
 };
 </script>
 
