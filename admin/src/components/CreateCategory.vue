@@ -1,38 +1,45 @@
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { useMutation } from '@tanstack/vue-query';
 import { createCategory } from '@/api/category/create';
 import { toast } from 'vue3-toastify';
 import { useQueryClient } from '@tanstack/vue-query';
 
-
-
 const name = ref<string>();
 const image = ref<File>();
+const imageName = ref<string>();
+const isNameError = ref<boolean>(false);
 
 const queryClient = useQueryClient();
 const createCategoryMutation = useMutation({
   mutationFn: createCategory,
   onSuccess: () => {
     toast.success('Category created');
+    // invalidate query to update cache
     queryClient.invalidateQueries(['categories']);
+    // clear form
+    name.value = '';
   },
   onError: () => {
     toast.error('Error creating category');
   },
 });
 
-
 const onFileChange = (e: Event) => {
   const target = e.target as HTMLInputElement;
   const file = target.files?.[0];
-  if (file) {
-    image.value = file;
+  if (!file) {
+    target.value = '';
   }
- 
+
+  image.value = file;
 };
 
 const onSubmit = () => {
+  if (!name.value || name.value.length < 3) {
+    isNameError.value = true;
+    return;
+  }
   const formData = new FormData();
   formData.append('name', name.value as string);
   formData.append('image', image.value as File);
@@ -42,28 +49,49 @@ const onSubmit = () => {
 
 <template>
   <div class="flex flex-col m-8">
-    <form class="flex flex-col gap-y-8" @submit.prevent="onSubmit">
-      <label for="title" class="sr-only">Name</label>
-      <input 
-        type="text" 
-        v-model="name" 
-        id="title" 
+    <form
+      class="gap-y-10 relative flex flex-col"
+      @submit.prevent="onSubmit"
+    >
+      <label
+        for="title"
+        class="sr-only"
+        >Name</label
+      >
+      <input
+        type="text"
+        v-model="name"
+        id="title"
         name="name"
-        class="border-1 drop-shadow-sm border-gray-300"
+        class="border-1 drop-shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent border-gray-300"
+        :class="{ 'border-red-500': isNameError }"
         placeholder="Category Name"
         min="3"
+        @input="isNameError = false"
+        autocomplete="off"
       />
-      <label for="image" class="sr-only">Image</label>  
-      <input 
-        type="file" 
-        @change="onFileChange" 
+      <p
+        v-if="isNameError"
+        class="top-11 absolute left-0 text-xs italic text-red-500"
+      >
+        Name must be at least 3 characters
+      </p>
+      <label
+        for="image"
+        class="sr-only"
+        >Image</label
+      >
+      <input
+        type="file"
+        @change="onFileChange"
         id="image"
         name="image"
         class="border-1 drop-shadow-sm border-gray-300"
+        :value="imageName"
       />
-      <button 
+      <button
         type="submit"
-        class="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-500"
+        class="hover:bg-green-500 px-4 py-2 text-white bg-green-600 rounded-md"
       >
         Create
       </button>

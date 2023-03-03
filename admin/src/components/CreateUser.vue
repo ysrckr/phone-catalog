@@ -97,7 +97,7 @@ const onPasswordChange = () => {
           autocomplete="true"
           id="name"
           v-model="name"
-          class="border-1 drop-shadow-sm border-gray-300"
+          class="border-1 drop-shadow-sm border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
           :class="{ 'border-red-500': !isNameValid }"
           @input="isNameValid = true"
         />
@@ -121,7 +121,7 @@ const onPasswordChange = () => {
           autocomplete="true"
           id="email"
           v-model="email"
-          class="border-1 drop-shadow-sm border-gray-300"
+          class="border-1 drop-shadow-sm border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
           :class="{ 'border-red-500': !isEmailValid }"
           @input="isEmailValid = true"
         />
@@ -144,7 +144,7 @@ const onPasswordChange = () => {
           id="password"
           autocomplete="false"
           v-model="password"
-          class="border-1 drop-shadow-sm border-gray-300"
+          class="border-1 drop-shadow-sm border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
           :class="{ 'border-red-500': !isPasswordValid }"
           @input="onPasswordChange"
         />
@@ -166,7 +166,7 @@ const onPasswordChange = () => {
         autocomplete="false"
         id="confirm-password"
         v-model="confirmPassword"
-        class="border-1 drop-shadow-sm border-gray-300"
+        class="border-1 drop-shadow-sm border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
       />
       <label
         class="sr-only"
@@ -176,7 +176,7 @@ const onPasswordChange = () => {
       <select
         id="role"
         v-model="role"
-        class="border-1 drop-shadow-sm border-gray-300"
+        class="border-1 drop-shadow-sm border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
       >
         <option
           disabled
