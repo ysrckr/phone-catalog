@@ -9,7 +9,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="text-center bg-green-100 drop-shadow-lg font-semibold mx-auto">
+  <div class="text-center bg-green-100 drop-shadow-lg font-semibold mx-auto p-4">
     <h3 class="mb-5 p-2">{{ props.title }}</h3>
     <slot></slot>
   </div>

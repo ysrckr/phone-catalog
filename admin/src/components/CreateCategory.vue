@@ -86,7 +86,7 @@ const onSubmit = () => {
         @change="onFileChange"
         id="image"
         name="image"
-        class="border-1 drop-shadow-sm border-gray-300"
+        class="file:bg-green-600 file:text-white file:border-none file:mr-6 file:px-4 file:py-2 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent file:hover:bg-green-500 file:cursor-pointer file:dropshadow-lg file:rounded-md border-gray-300"
         :value="imageName"
       />
       <button

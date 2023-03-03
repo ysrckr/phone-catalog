@@ -18,8 +18,8 @@ onMounted(() => {
 </script>
 
 <template>
-  <h1 class="text-center mt-4 text-xl font-bold">Dashboard</h1>
-  <div class="container px-4 mt-3 grid grid-cols-1 gap-x-4 gap-y-6 lg:grid-cols-2 xxl:grid-cols-4 items-center justify-center"
+  <h1 class="text-center mt-10 text-xl font-bold">Dashboard</h1>
+  <div class="container px-4 mt-12 grid grid-cols-1 gap-x-4 gap-y-6 lg:grid-cols-2 xxl:grid-cols-4 items-center justify-center"
   >
     <Card title="Create A User">
       <CreateUser />
