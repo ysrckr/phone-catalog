@@ -1,11 +1,11 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 import { useMutation } from '@tanstack/vue-query';
-import { createUser } from '@/calls/users/create';
+import { createUser } from '@/api/users/create';
 import { CreateUserSchema, CreateUser } from '@/types/user';
 import { useAuthStore } from '@/stores/authStore';
 import { useQueryClient } from '@tanstack/vue-query';
-import { Password } from '../calls/auth/login';
+import { Password } from '../api/auth/login';
 import { toast } from 'vue3-toastify';
 
 const queryClient = useQueryClient();

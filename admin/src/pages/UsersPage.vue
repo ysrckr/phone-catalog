@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import UsersItem from '@/components/UsersItem.vue';
 import { useQuery } from '@tanstack/vue-query';
-import { getAllUsers } from '@/calls/users/getAll';
+import { getAllUsers } from '@/api/users/getAll';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import Error from '@/components/Error.vue';
 

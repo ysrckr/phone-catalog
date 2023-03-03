@@ -1,10 +1,10 @@
 import { defineStore } from 'pinia';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
-import { logout } from '@/calls/auth/logout';
-import { login } from '@/calls/auth/login';
+import { logout } from '@/api/auth/logout';
+import { login } from '@/api/auth/login';
 import { toast } from 'vue3-toastify';
 import { LoginUser } from '@/types/user';
-import { checkAuth } from '@/calls/auth/checkAuth';
+import { checkAuth } from '@/api/auth/checkAuth';
 
 const [userId, setUserId] = useLocalStorage('userId');
 
