@@ -4,7 +4,6 @@ import { useRouter } from 'vue-router';
 import { toast } from 'vue3-toastify';
 import { useAuthStore } from '@/stores/authStore';
 import { LoginUser } from '@/types/user';
-import { type } from 'os';
 
 const email = ref<keyof LoginUser>();
 const password = ref<keyof LoginUser>();

@@ -2,7 +2,7 @@
 import CategoriesItem from '@/components/Items/CategoriesItem.vue';
 import { useQuery } from '@tanstack/vue-query';
 import { getAllCategories } from '@/api/categories/getAll';
-import { Category } from '../types/category';
+import { Category } from '@/types/category';
 
 const {
   data: categories,
@@ -13,11 +13,9 @@ const {
 </script>
 
 <template>
-  <div
-    class="gap-y-6 gap-x-4 justify-items-center md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 grid grid-cols-1 mt-8"
-  >
-    <h1>Categories</h1>
-        <div
+  <div class="flex flex-col justify-center items-center mt-8">
+    <h1 class="text-center">Categories</h1>
+    <div
       v-if="isLoading"
       class="mx-auto mt-20"
     >
@@ -34,12 +32,14 @@ const {
       />
     </div>
 
-    <CategoriesItem
-      v-if="categories"
-      v-for="category in categories"
-      :key="category.id"
-      :name="category.name"
-      :image="category.image"
-    />
+    <div class="grid">
+      <CategoriesItem
+        v-if="categories"
+        v-for="category in categories"
+        :key="category.id"
+        :name="category.name"
+        :image="category.image"
+      />
+    </div>
   </div>
 </template>
