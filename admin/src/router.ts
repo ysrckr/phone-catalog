@@ -4,6 +4,7 @@ import LoginPage from './pages/LoginPage.vue';
 import DashboardPage from './pages/DashboardPage.vue';
 import UsersPage from './pages/UsersPage.vue';
 import ProductsPage from './pages/ProductsPage.vue';
+import CategoriesPage from './pages/CategoriesPage.vue';
 import { useAuthStore } from './stores/authStore';
 
 const guard = async (to: RouteLocation, from: RouteLocation, next: any) => {
@@ -41,6 +42,10 @@ const routes = [
         path: 'products',
         component: ProductsPage,
       },
+      {
+        path: '/:categories',
+        component: CategoriesPage,
+      }
     ],
   },
 ];

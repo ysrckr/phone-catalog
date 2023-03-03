@@ -15,14 +15,14 @@ const emit = defineEmits(['refresh']);
       <span class="inline-block"> Please try again later. </span>
     </div>
     <div>
-      <v-btn
+      <button
         @click="emit('refresh')"
         prepend-icon="mdi-reload"
         color="#14532d"
-        class="text-white"
+        class="hover:bg-green-500 px-4 py-2 text-white bg-green-600 rounded-md"
       >
         Refresh
-      </v-btn>
+      </button>
     </div>
   </div>
 </template>
