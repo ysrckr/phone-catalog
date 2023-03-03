@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { ref, watch } from 'vue';
 import { useMutation } from '@tanstack/vue-query';
-import { createCategory } from '@/api/category/create';
+import { createCategory } from '@/api/categories/create';
 import { toast } from 'vue3-toastify';
 import { useQueryClient } from '@tanstack/vue-query';
 

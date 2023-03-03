@@ -8,6 +8,7 @@ import ProductsItem from '@/components/ProductsItem.vue';
     <div
       class="gap-x-4 gap-y-6 lg:grid-cols-2 xxl:grid-cols-4 container grid items-center justify-center grid-cols-1 px-4 mt-3"
     >
+    
       <ProductsItem />
     </div>
   </div>

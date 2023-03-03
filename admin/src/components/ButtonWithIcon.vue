@@ -13,6 +13,8 @@ const props = defineProps({
     default: 1.5,
   },
 });
+
+const { icon, iconSide, iconSize } = props;
 </script>
 
 <template>
