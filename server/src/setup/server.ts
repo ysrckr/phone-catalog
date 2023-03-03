@@ -1,10 +1,10 @@
 import { v2 as cloudinary } from 'cloudinary';
 import express from 'express';
-import { limiter } from '../utils/limiter';
-import { router as usersAdmin } from '../routes/adminRoutes/usersAdmin';
-import { router as categoriesAdmin } from '../routes/adminRoutes/categoriesAdmin';
 import { checkAuth } from '../middleware/auth';
-import { adminCors } from '../utils/cors';
+import { router as categoriesAdmin } from '../routes/adminRoutes/categoriesAdmin';
+import { router as usersAdmin } from '../routes/adminRoutes/usersAdmin';
+import { adminCors, clientCors } from '../utils/cors';
+import { limiter } from '../utils/limiter';
 
 export const startServer = (port: number) => {
   const app = express();
@@ -23,6 +23,7 @@ export const startServer = (port: number) => {
   // Routes
   app.use('/api/v1/admin', adminCors, usersAdmin);
   app.use('/api/v1/admin/categories', adminCors, checkAuth, categoriesAdmin);
+  app.use('/api/v1/categories', clientCors, categoriesAdmin);
 
   // Start server
   app.listen(port, () => {
