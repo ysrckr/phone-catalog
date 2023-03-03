@@ -5,6 +5,7 @@ import { useRouter } from "vue-router";
 import Card from '@/components/Card.vue';
 import CreateUser from "@/components/CreateUser.vue";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
+import CreateCategory from "@/components/CreateCategory.vue";
 
 const router = useRouter();
 const [userId, setUserId] = useLocalStorage('userId');
@@ -23,7 +24,9 @@ onMounted(() => {
     <Card title="Create A User">
       <CreateUser />
     </Card>
-    <Card title="Create A Category"/>
+    <Card title="Create A Category">
+      <CreateCategory />
+    </Card>
     <Card title="Create A Product" />
   </div>
 </template>
