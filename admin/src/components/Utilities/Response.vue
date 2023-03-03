@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Error from '@/components/Error.vue';
+import Error from '@/components/Utilities/Error.vue.js';
 const props = {
   isLoading: {
     type: Boolean,

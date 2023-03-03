@@ -5,7 +5,7 @@ import { createUser } from '@/api/users/create';
 import { CreateUserSchema, CreateUser } from '@/types/user';
 import { useAuthStore } from '@/stores/authStore';
 import { useQueryClient } from '@tanstack/vue-query';
-import { Password } from '../api/auth/login';
+import { Password } from '../../api/auth/login';
 import { toast } from 'vue3-toastify';
 
 const queryClient = useQueryClient();

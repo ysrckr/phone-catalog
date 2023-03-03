@@ -2,10 +2,10 @@
 <script setup lang="ts">
 import { onMounted } from "vue";
 import { useRouter } from "vue-router";
-import Card from '@/components/Card.vue';
-import CreateUser from "@/components/CreateUser.vue";
+import Card from '@/components/Utilities/Card.vue.js';
+import CreateUser from "@/components/Forms/CreateUser.vue.js";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
-import CreateCategory from "@/components/CreateCategory.vue";
+import CreateCategory from "@/components/Forms/CreateCategory.vue.js";
 
 const router = useRouter();
 const [userId, setUserId] = useLocalStorage('userId');

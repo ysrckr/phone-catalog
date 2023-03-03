@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import UsersItem from '@/components/UsersItem.vue';
+import UsersItem from '@/components/Items/UsersItem.vue.js';
 import { useQuery } from '@tanstack/vue-query';
 import { getAllUsers } from '@/api/users/getAll';
-import Error from '@/components/Error.vue';
-import Response from '@/components/Response.vue';
+import Error from '@/components/Utilities/Error.vue.js';
+import Response from '@/components/Utilities/Response.vue.js';
 
 const {
   data: users,

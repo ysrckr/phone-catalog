@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import CategoriesItem from '@/components/CategoriesItem.vue';
+import CategoriesItem from '@/components/Items/CategoriesItem.vue';
 import { useQuery } from '@tanstack/vue-query';
 import { getAllCategories } from '@/api/categories/getAll';
 import { Category } from '../types/category';

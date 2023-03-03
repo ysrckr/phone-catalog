@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import ButtonWithIcon from './ButtonWithIcon.vue';
+import ButtonWithIcon from '../Utilities/ButtonWithIcon.vue';
 
 const props = defineProps({
   name: {

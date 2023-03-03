@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { capitalize } from '../utils/capitilize';
+import { capitalize } from '../../utils/capitilize';
 const props = defineProps({
   name: {
     type: String,
