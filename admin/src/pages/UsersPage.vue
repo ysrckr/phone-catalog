@@ -2,7 +2,8 @@
 import UsersItem from '@/components/Items/UsersItem.vue';
 import { useQuery } from '@tanstack/vue-query';
 import { getAllUsers } from '@/api/users/getAll';
-import Response from '@/components/Utilities/Loader.vue.js';
+import Error from '@/components/Utilities/Error.vue';
+import Loader from '@/components/Utilities/Loader.vue';
 
 const {
   data: users,

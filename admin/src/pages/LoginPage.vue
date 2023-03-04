@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { onMounted, ref } from 'vue';
+import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { toast } from 'vue3-toastify';
 import { useAuthStore } from '@/stores/authStore';
@@ -37,12 +37,11 @@ const onLogin = async () => {
       email: email.value,
       password: password.value,
     });
+    router.push('/dashboard');
   } catch (error) {
     toast.error('Invalid credentials');
     return;
   }
-
-  router.push('/dashboard');
 };
 </script>
 
