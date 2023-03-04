@@ -4,6 +4,9 @@ import { useQuery } from '@tanstack/vue-query';
 import { getAllCategories } from '@/api/categories/getAll';
 import { Category } from '@/types/category';
 
+import Error from '@/components/Utilities/Error.vue';
+import Loader from '@/components/Utilities/Loader.vue';
+
 const {
   data: categories,
   isError,
@@ -13,26 +16,17 @@ const {
 </script>
 
 <template>
-  <div class="flex flex-col justify-center items-center mt-8">
+  <div class="flex flex-col items-center justify-center mt-8">
     <h1 class="text-center">Categories</h1>
-    <div
-      v-if="isLoading"
-      class="mx-auto mt-20"
-    >
-      <v-progress-circular
-        color="green"
-        model-value="20"
-        :size="47"
-      ></v-progress-circular>
-    </div>
-    <div v-if="isError">
-      <Error
-        v-if="isError"
-        @refresh="refetch"
-      />
-    </div>
+    <Loader v-if="isLoading" />
+    <Error
+      v-if="isError"
+      @refresh="refetch"
+    />
 
-    <div class="grid">
+    <div 
+      class="gap-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xxl:grid-cols-4"
+    >
       <CategoriesItem
         v-if="categories"
         v-for="category in categories"

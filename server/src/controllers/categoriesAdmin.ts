@@ -2,7 +2,7 @@ import type { Request, Response } from 'express';
 import fs from 'fs';
 import { create as createCategory } from '../services/categories';
 import {
-  cloudinaryUploadOptions,
+  cloudinaryDefaultUploadOptions,
   uploadToCloudinary,
 } from '../utils/uploadToCloudinary';
 
@@ -17,7 +17,7 @@ export const create = async (req: Request, res: Response) => {
   if (image) {
     const { path } = image;
     try {
-      const result = await uploadToCloudinary(path, cloudinaryUploadOptions);
+      const result = await uploadToCloudinary(path, cloudinaryDefaultUploadOptions);
 
       if (!result) {
         return res.status(500).json({ error: 'Error uploading file' });

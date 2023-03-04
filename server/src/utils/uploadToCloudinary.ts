@@ -1,4 +1,4 @@
-import { UploadApiResponse, v2 as cloudinary } from 'cloudinary';
+import { UploadApiResponse,v2 as cloudinary } from 'cloudinary';
 
 
 export const uploadToCloudinary = (
@@ -17,7 +17,31 @@ export const uploadToCloudinary = (
 
 export type CloudinaryResponse = UploadApiResponse;
 
-export const cloudinaryUploadOptions = {
+export const cloudinaryDefaultUploadOptions = {
   resource_type: 'auto',
   folder: 'phone_catalog',
+  eager: [
+    {
+      width: 200,
+      height: 300,
+    },
+  ],
 };
+
+export type CloudinaryEagerOption = {
+  width: number;
+  height: number;
+};
+export const cloudinaryCustomOptionGenerater = (sizes: CloudinaryEagerOption[]) => ({
+  ...cloudinaryDefaultUploadOptions,
+  eager: [
+    ...cloudinaryDefaultUploadOptions.eager,
+    ...sizes.map(size => ({
+      width: size.width,
+      height: size.height,
+    })),
+  ],
+});
+
+
+

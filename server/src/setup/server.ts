@@ -3,7 +3,8 @@ import express from 'express';
 import { checkAuth } from '../middleware/auth';
 import { router as categoriesAdmin } from '../routes/adminRoutes/categoriesAdmin';
 import { router as usersAdmin } from '../routes/adminRoutes/usersAdmin';
-import { adminCors, clientCors } from '../utils/cors';
+import { router as categories } from '../routes/categories/categories';
+import { adminCors,clientCors } from '../utils/cors';
 import { limiter } from '../utils/limiter';
 
 export const startServer = (port: number) => {
@@ -21,9 +22,9 @@ export const startServer = (port: number) => {
   });
 
   // Routes
+  app.use('/api/v1/categories', clientCors, categories);
   app.use('/api/v1/admin', adminCors, usersAdmin);
   app.use('/api/v1/admin/categories', adminCors, checkAuth, categoriesAdmin);
-  app.use('/api/v1/categories', clientCors, categoriesAdmin);
 
   // Start server
   app.listen(port, () => {

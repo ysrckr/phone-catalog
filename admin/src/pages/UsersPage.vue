@@ -2,7 +2,7 @@
 import UsersItem from '@/components/Items/UsersItem.vue';
 import { useQuery } from '@tanstack/vue-query';
 import { getAllUsers } from '@/api/users/getAll';
-import Response from '@/components/Utilities/Response.vue';
+import Response from '@/components/Utilities/Loader.vue.js';
 
 const {
   data: users,
@@ -17,10 +17,10 @@ const {
 <template>
   <div class="container flex flex-col items-center justify-center mx-auto mt-4">
     <h1 class="m-6 text-xl font-bold text-center">Users</h1>
-    <Response
-      :isLoading="isLoading"
-      :isError="isError"
-      :refetch="refetch"
+    <Loader v-if="isLoading" />
+    <Error
+      v-if="isError"
+      @refresh="refetch"
     />
     <div
       class="gap-x-4 gap-y-6 lg:grid-cols-4 xxl:grid-cols-6 container grid items-center justify-center grid-cols-2 px-4 mt-3"
