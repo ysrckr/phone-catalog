@@ -8,11 +8,11 @@ const authStore = useAuthStore();
 <template >
   <aside v-bind="$attrs" v-if="authStore.isAuthenticated" class="flex flex-col gap-y-8 items-center p-20">
    <nav>
-     <ul class="flex flex-col justify-evenly gap-y-10 font-semibold text-center text-green-300">
+     <ul class="flex flex-col justify-evenly gap-y-10 font-semibold text-center text-gray-800">
         <li v-show="authStore.isAuthenticated">
           <router-link
             to="/users"
-            :active-class="'text-green-200 underline'"
+            :active-class="'text-gray-700 underline'"
           >
             Users
           </router-link>
@@ -20,7 +20,7 @@ const authStore = useAuthStore();
          <li v-show="authStore.isAuthenticated">
           <router-link
             to="/categories"
-            :active-class="'text-green-200 underline'"
+            :active-class="'text-gray-700 underline'"
           >
             Categories
           </router-link>
@@ -28,7 +28,7 @@ const authStore = useAuthStore();
         <li v-show="authStore.isAuthenticated">
           <router-link
             to="/products"
-            :active-class="'text-green-200 underline'"
+            :active-class="'text-gray-700 underline'"
           >
             Products
           </router-link>
