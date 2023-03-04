@@ -23,7 +23,7 @@ const onLogout = async () => {
 
 <template>
   <header
-    class="sticky flex items-center justify-between px-5 py-5 bg-green-900 shadow-xl"
+    class="sticky top-0 flex items-center justify-between px-5 py-5 z-30 bg-green-900 shadow-xl h-1/6"
   >
     <div>
       <router-link to="/">
@@ -41,22 +41,6 @@ const onLogout = async () => {
             :active-class="'text-green-200 underline'"
           >
             Dashboard
-          </router-link>
-        </li>
-        <li v-show="authStore.isAuthenticated">
-          <router-link
-            to="/users"
-            :active-class="'text-green-200 underline'"
-          >
-            Users
-          </router-link>
-        </li>
-        <li v-show="authStore.isAuthenticated">
-          <router-link
-            to="/products"
-            :active-class="'text-green-200 underline'"
-          >
-            Products
           </router-link>
         </li>
 
