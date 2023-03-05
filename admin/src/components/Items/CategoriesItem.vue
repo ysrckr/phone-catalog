@@ -25,7 +25,7 @@ const props = defineProps({
     <div class="justify-evenly flex items-center">
       <div>
         <ButtonWithIcon
-          icon="mdi-pencil"
+          icon="pencil"
           class="hover:bg-yellow-300 inline-flex items-center gap-2 py-2 pl-2 pr-4 text-gray-600 bg-yellow-400 rounded-md"
         >
           Edit
@@ -33,7 +33,7 @@ const props = defineProps({
       </div>
       <div>
         <ButtonWithIcon
-          icon="mdi-delete"
+          icon="delete"
           class="hover:bg-red-300 inline-flex items-center gap-2 py-2 pl-2 pr-4 text-gray-200 bg-red-400 rounded-md"
         >
           Delete
