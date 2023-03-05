@@ -5,7 +5,7 @@ import {
 import z from 'zod';
 import { prisma } from '../setup/dbConnection';
 import { redisClient } from '../setup/redisClient';
-import type { User } from '../types/User';
+import { User, userSchema } from '../types/User';
 
 // Get all users
 export const getAll = async () => {
@@ -87,6 +87,40 @@ export const getByEmail = async (email: string) => {
       },
     });
     return user;
+  } catch (error) {
+    throw error;
+  }
+};
+
+// Update a user
+export const update = async (id: string, user: User) => {
+  const isValidUser = userSchema.safeParse(user).success;
+
+  if (!isValidUser) {
+    throw new Error('Invalid user');
+  }
+
+  try {
+    const updatedUser = await prisma.user.update({
+      where: {
+        id,
+      },
+      data: user,
+    });
+    return updatedUser;
+   } catch (error) {
+    throw error;
+   }
+};
+ 
+// Delete a user
+export const remove = async (id: string) => { 
+  try {
+    await prisma.user.delete({
+      where: {
+        id,
+      },
+    });
   } catch (error) {
     throw error;
   }

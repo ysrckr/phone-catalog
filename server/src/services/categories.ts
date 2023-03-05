@@ -82,7 +82,7 @@ export const update = async ({
         },
         data: {
           name,
-          image: image || '',
+          image,
         },
       });
       return category;
