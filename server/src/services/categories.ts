@@ -116,6 +116,10 @@ export const remove = async (id: string) => {
   }
 
   try {
+    const category = await getOne(id);
+    if (!category) {
+      return { error: 'Category not found' };
+    }
     await prisma.category.delete({
       where: {
         id,

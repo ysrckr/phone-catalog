@@ -24,7 +24,7 @@ const {
       @refresh="refetch"
     />
     <div
-      class="gap-x-4 gap-y-6 lg:grid-cols-4 sm:grid-cols-2 md:grid-cols-2 container grid items-center justify-center grid-cols-1 px-4 mt-3"
+      class="gap-x-4 gap-y-6 lg:grid-cols-3 sm:grid-cols-2 md:grid-cols-2 container grid items-center justify-center grid-cols-1 px-4 mt-3"
     >
       <UsersItem
         v-if="users"

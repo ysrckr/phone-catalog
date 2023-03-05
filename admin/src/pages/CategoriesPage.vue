@@ -3,7 +3,6 @@ import CategoriesItem from '@/components/Items/CategoriesItem.vue';
 import { useQuery } from '@tanstack/vue-query';
 import { getAllCategories } from '@/api/categories/getAll';
 import { Category } from '@/types/category';
-
 import Error from '@/components/Utilities/Error.vue';
 import Loader from '@/components/Utilities/Loader.vue';
 
@@ -12,7 +11,11 @@ const {
   isError,
   isLoading,
   refetch,
-} = useQuery<Category[]>(['categories'], getAllCategories);
+} = useQuery<Category[]>({
+  queryKey: ['categories'],
+  queryFn: getAllCategories,
+});
+
 </script>
 
 <template>
@@ -24,8 +27,8 @@ const {
       @refresh="refetch"
     />
 
-    <div 
-      class="gap-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xxl:grid-cols-4"
+    <div
+      class="md:grid-cols-2 lg:grid-cols-3 xxl:grid-cols-4 grid grid-cols-1 gap-6"
     >
       <CategoriesItem
         v-if="categories"
@@ -33,6 +36,7 @@ const {
         :key="category.id"
         :name="category.name"
         :image="category.image"
+        :id="category.id"
       />
     </div>
   </div>

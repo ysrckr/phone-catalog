@@ -4,21 +4,27 @@ import { useMutation } from '@tanstack/vue-query';
 import { createCategory } from '@/api/categories/create';
 import { toast } from 'vue3-toastify';
 import { useQueryClient } from '@tanstack/vue-query';
+import { useRouter } from 'vue-router';
 
 const name = ref<string>();
 const image = ref<File>();
 const imageName = ref<string>();
 const isNameError = ref<boolean>(false);
 
+const router = useRouter();
 const queryClient = useQueryClient();
 const createCategoryMutation = useMutation({
   mutationFn: createCategory,
   onSuccess: () => {
     toast.success('Category created');
     // invalidate query to update cache
-    queryClient.invalidateQueries(['categories']);
+    queryClient.invalidateQueries({
+      queryKey: ['categories']
+    });
     // clear form
     name.value = '';
+
+    router.push('/categories');
   },
   onError: () => {
     toast.error('Error creating category');

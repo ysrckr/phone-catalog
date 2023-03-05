@@ -35,8 +35,8 @@ const pinia = createPinia();
 
 const app = createApp(App)
   .use(pinia)
-  .use(VueQueryPlugin)
   .use(router)
+  .use(VueQueryPlugin)
   .use(vuetify)
   .use(Vue3Toastify, {
     position: 'top-right',

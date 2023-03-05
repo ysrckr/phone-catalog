@@ -1,6 +1,6 @@
 import type { Request, Response } from 'express';
 import fs from 'fs';
-import { create as createCategory } from '../services/categories';
+import { create as createCategory, remove as removeCategory } from '../services/categories';
 import {
   cloudinaryDefaultUploadOptions,
   uploadToCloudinary,
@@ -51,5 +51,19 @@ export const create = async (req: Request, res: Response) => {
   } catch (error) {
     console.error(error);
     return res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+export const remove = async (req: Request, res: Response) => { 
+  const { id } = req.params;
+  try {
+    await removeCategory(id);
+    return res.status(200).json({ message: 'Category removed' });
+  } catch (error) {
+    if (error === 'Category not found') {
+      return res.status(404).json({ error });
+    }
+
+    return res.status(500).json({ error });
   }
 };
