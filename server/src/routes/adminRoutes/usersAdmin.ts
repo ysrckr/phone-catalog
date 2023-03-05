@@ -1,7 +1,7 @@
 import express from 'express';
 import { login, logout, register, check } from '../../controllers/users';
 import { checkAuth } from '../../middleware/auth';
-import { getAll } from '../../controllers/users';
+import { getAll, remove } from '../../controllers/users';
 
 export const router = express.Router();
 
@@ -22,3 +22,6 @@ router.get('/users', checkAuth, getAll);
 
 // register user with role
 router.post('/register', register);
+
+// remove user
+router.delete('/users', checkAuth, remove);

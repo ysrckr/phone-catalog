@@ -108,17 +108,24 @@ export const update = async (id: string, user: User) => {
       data: user,
     });
     return updatedUser;
-   } catch (error) {
+  } catch (error) {
     throw error;
-   }
+  }
 };
- 
+
 // Delete a user
-export const remove = async (id: string) => { 
+export const remove = async (email: string) => {
   try {
+    // Check if user exists
+    const user = await getByEmail(email);
+    if (!user) {
+      return { error: 'User not found' };
+    }
+
+    // Delete user
     await prisma.user.delete({
       where: {
-        id,
+        email,
       },
     });
   } catch (error) {

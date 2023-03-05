@@ -1,6 +1,11 @@
 <script lang="ts" setup>
 import { capitalize } from '../../utils/capitilize';
 import ButtonWithIcon from '../Utilities/ButtonWithIcon.vue';
+import { useMutation, useQueryClient } from '@tanstack/vue-query';
+import { remove as removeUser } from '@/api/users/remove';
+import { toast } from 'vue3-toastify';
+import { json } from 'stream/consumers';
+
 const props = defineProps({
   name: {
     type: String,
@@ -15,6 +20,24 @@ const props = defineProps({
     required: true,
   },
 });
+
+const queryClient = useQueryClient();
+
+const deleteUserMutation = useMutation({
+  mutationFn: (email: string) => removeUser(email),
+  onSuccess: () => {
+    queryClient.invalidateQueries({
+      queryKey: ['users'],
+    });
+  },
+  onError: (error: {error: string}) => {
+    toast.error(error.error);
+  },
+});
+
+const deleteUser = (email: string) => {
+  deleteUserMutation.mutate(email);
+};
 </script>
 
 <template>
@@ -26,17 +49,20 @@ const props = defineProps({
       <a :href="`mailto:${props.email}`">{{ props.email }}</a>
     </p>
     <p class="text-center">{{ capitalize(props.role) }}</p>
-    <div class="flex items-center justify-between gap-x-2">
-      <ButtonWithIcon icon="pencil" class="hover:bg-yellow-300 inline-flex items-center gap-2 py-2 pl-2 pr-4 text-gray-600 bg-yellow-400 rounded-md" >
+    <div class="gap-x-2 flex items-center justify-between">
+      <ButtonWithIcon
+        icon="pencil"
+        class="hover:bg-yellow-300 inline-flex items-center gap-2 py-2 pl-2 pr-4 text-gray-600 bg-yellow-400 rounded-md"
+      >
         Edit
       </ButtonWithIcon>
       <ButtonWithIcon
         icon="delete"
         class="hover:bg-red-300 inline-flex items-center gap-2 py-2 pl-2 pr-4 text-gray-200 bg-red-400 rounded-md"
+        @click="deleteUser(props.email)"
       >
         Delete
-      </ButtonWithIcon
-      >
+      </ButtonWithIcon>
     </div>
   </div>
 </template>

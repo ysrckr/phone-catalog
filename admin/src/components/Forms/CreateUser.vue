@@ -3,13 +3,9 @@ import { ref } from 'vue';
 import { useMutation } from '@tanstack/vue-query';
 import { createUser } from '@/api/users/create';
 import { CreateUserSchema, CreateUser } from '@/types/user';
-import { useAuthStore } from '@/stores/authStore';
 import { useQueryClient } from '@tanstack/vue-query';
-import { Password } from '../../api/auth/login';
 import { toast } from 'vue3-toastify';
-
-const queryClient = useQueryClient();
-const authStore = useAuthStore();
+import { useRouter } from 'vue-router';
 
 const name = ref<string>();
 const email = ref<string>();
@@ -21,6 +17,10 @@ const isEmailValid = ref<boolean>(true);
 const isPasswordValid = ref<boolean>(true);
 const isPassworsMatch = ref<boolean>(true);
 
+const router = useRouter();
+
+const queryClient = useQueryClient();
+
 const { mutate } = useMutation({
   mutationFn: (user: CreateUser) => createUser(user),
   onSuccess: () => {
@@ -30,6 +30,10 @@ const { mutate } = useMutation({
     password.value = '';
     confirmPassword.value = '';
     role.value = 'Choose A Role';
+
+    toast.success('User created successfully');
+
+    router.push('/users');
   },
 });
 
@@ -97,7 +101,7 @@ const onPasswordChange = () => {
           autocomplete="true"
           id="name"
           v-model="name"
-          class="border-1 drop-shadow-sm border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+          class="border-1 drop-shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent border-gray-300"
           :class="{ 'border-red-500': !isNameValid }"
           @input="isNameValid = true"
         />
@@ -121,7 +125,7 @@ const onPasswordChange = () => {
           autocomplete="true"
           id="email"
           v-model="email"
-          class="border-1 drop-shadow-sm border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+          class="border-1 drop-shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent border-gray-300"
           :class="{ 'border-red-500': !isEmailValid }"
           @input="isEmailValid = true"
         />
@@ -144,7 +148,7 @@ const onPasswordChange = () => {
           id="password"
           autocomplete="false"
           v-model="password"
-          class="border-1 drop-shadow-sm border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+          class="border-1 drop-shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent border-gray-300"
           :class="{ 'border-red-500': !isPasswordValid }"
           @input="onPasswordChange"
         />
@@ -166,7 +170,7 @@ const onPasswordChange = () => {
         autocomplete="false"
         id="confirm-password"
         v-model="confirmPassword"
-        class="border-1 drop-shadow-sm border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+        class="border-1 drop-shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent border-gray-300"
       />
       <label
         class="sr-only"
@@ -176,7 +180,7 @@ const onPasswordChange = () => {
       <select
         id="role"
         v-model="role"
-        class="border-1 drop-shadow-sm border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+        class="border-1 drop-shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent border-gray-300"
       >
         <option
           disabled
