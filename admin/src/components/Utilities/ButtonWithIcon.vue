@@ -24,13 +24,13 @@ const { icon, iconSide, iconSize } = props;
   >
     <v-icon
       v-if="iconSide === 'left'"
-      :icon="icon"
+      :icon="`mdi-${icon}`"
       :size="`${iconSize}rem`"
     />
     <slot />
     <v-icon
       v-if="iconSide === 'right'"
-      :icon="icon"
+      :icon="`mdi-${icon}`"
       :size="`${iconSize}rem`"
     />
   </button>
