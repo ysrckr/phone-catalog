@@ -93,8 +93,9 @@ const onPasswordChange = () => {
         <label
           class="sr-only"
           for="name"
-          >Name</label
         >
+          Name
+        </label>
         <input
           type="text"
           placeholder="Name"

@@ -6,9 +6,11 @@ import Card from '@/components/Utilities/Card.vue';
 import CreateUser from "@/components/Forms/CreateUser.vue";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import CreateCategory from "@/components/Forms/CreateCategory.vue";
+import CreateProduct from "@/components/Forms/createProduct.vue";
+
 
 const router = useRouter();
-const [userId, setUserId] = useLocalStorage('userId');
+const [userId] = useLocalStorage('userId');
 
 onMounted(() => {
   if (!userId) {
@@ -27,6 +29,8 @@ onMounted(() => {
     <Card title="Create A Category">
       <CreateCategory />
     </Card>
-    <Card title="Create A Product" />
+    <Card title="Create A Product">
+      <CreateProduct />
+    </Card>
   </div>
 </template>
