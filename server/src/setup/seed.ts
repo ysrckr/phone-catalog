@@ -1,7 +1,7 @@
-import { prisma } from '../src/setup/dbConnection';
+import { prisma } from './dbConnection';
 
 async function main() {
-  const admin = await prisma.user.create({
+  await prisma.user.create({
     data: {
       email: 'admin@admin.com',
       password: 'admin',

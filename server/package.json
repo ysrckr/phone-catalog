@@ -4,11 +4,11 @@
   "description": "",
   "main": "index.js",
   "prisma": {
-    "seed": "ts-node prisma/seed.ts"
+    "seed": "ts-node .src/setup/seed.ts"
   },
   "scripts": {
     "clean": "rimraf ./build",
-    "build": "npm run clean && tsc",
+    "build": "pnpm run clean && tsc",
     "start": "node src",
     "dev": "nodemon --watch 'src/**/*.ts' --exec ts-node -T src/index.ts"
   },

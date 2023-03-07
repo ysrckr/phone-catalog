@@ -1,34 +1,20 @@
-FROM node:lts-alpine
+# Build stage for Node.js app
+FROM node:14-alpine as build-stage
 
-# Create app directory
-WORKDIR /usr/src/app
+WORKDIR /app
 
-# Install app dependencies
-COPY server/package*.json ./
+COPY server/package*.json ./server/tsconfig.json ./server/pnpm-lock.yaml  ./
+
+COPY server/prisma ./prisma
 
 RUN npm install -g pnpm
 
 RUN pnpm install
 
-# Bundle app source
-COPY server .
+COPY server/src .
+
+RUN pnpm run build
 
 EXPOSE 8000
 
-FROM nginx:latest
-
-# Remove default nginx configuration file
-RUN rm /etc/nginx/conf.d/default.conf
-
-# Copy custom nginx configuration file from the current directory
-COPY nginx.conf /etc/nginx/conf.d/
-
-
-RUN apt-get update && apt-get install -y curl
-
-# Expose port 80 for nginx
-EXPOSE 80
-
-# Start node app and nginx server
-CMD ["sh", "-c", "cd /app && node index.js & exec nginx -g 'daemon off;'"]
-
+CMD ["ls"]
