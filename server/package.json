@@ -3,11 +3,14 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
+  },
   "scripts": {
     "clean": "rimraf ./build",
     "build": "npm run clean && tsc",
     "start": "node src",
-    "dev": "nodemon --exec ts-node -T src"
+    "dev": "nodemon --watch 'src/**/*.ts' --exec ts-node -T src/index.ts"
   },
   "keywords": [],
   "author": "",
