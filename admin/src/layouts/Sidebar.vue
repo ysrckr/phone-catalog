@@ -11,7 +11,7 @@ const uiStore = useUiStore();
   <aside
     v-bind="$attrs"
     v-if="authStore.isAuthenticated"
-    class="bg-[#2c8b44f6] absolute top-0 bottom-0 min-h-screen w-2/3 p-20 z-10 md:relative md:h-min-screen transition-all duration-300 md:inset-0 ease-in-out"
+    class="bg-[#2c8b44f6] absolute top-0 bottom-0 min-h-screen p-20 z-10 md:relative md:h-min-screen transition-all duration-300 md:inset-0 ease-in-out"
     :class="{
       '-left-[70%]': !uiStore.isSidebarOpen,
       'left-0': uiStore.isSidebarOpen,

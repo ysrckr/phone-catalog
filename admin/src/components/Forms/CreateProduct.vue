@@ -3,6 +3,7 @@ import { ref } from 'vue';
 import { useMutation, useQueryClient, useQuery } from '@tanstack/vue-query';
 import { Category } from '@/types/category';
 import { getAllCategories } from '@/api/categories/getAll';
+import Checkbox from '../Utilities/Checkbox.vue';
 
 const name = ref<string>();
 const description = ref<string>();
@@ -10,7 +11,7 @@ const colors = ref<string[]>();
 const sizes = ref<string[]>();
 const price = ref<number>();
 const quantity = ref<number>();
-const category = ref<string>();
+const category = ref<string>('');
 
 const queryClient = useQueryClient();
 
@@ -21,63 +22,109 @@ const { data: categories } = useQuery<Category[]>(
 </script>
 
 <template>
-  <div>
-    <form>
-      <label for="name">Name</label>
+  <div class="mx-auto">
+    <form class="gap-y-6 flex flex-col">
+      <label
+        class="sr-only"
+        for="name"
+        >Name</label
+      >
       <input
+        class="border-1 drop-shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent border-gray-300"
         v-model="name"
         type="text"
         id="name"
         name="name"
         autocomplete="true"
+        placeholder="Product Name"
       />
-      <label for="description">Description</label>
+      <label
+        class="sr-only"
+        for="description"
+        >Description</label
+      >
       <textarea
+        class="border-1 drop-shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent bg-white border-gray-300"
         v-model="description"
         id="description"
         name="description"
         autocomplete="false"
+        placeholder="Product Description"
       />
-      <label for="colors">Colors</label>
+      <label
+        class="sr-only"
+        for="colors"
+        >Colors</label
+      >
       <input
+        class="border-1 drop-shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent border-gray-300"
         v-model="colors"
         type="text"
         id="colors"
         name="colors"
         autocomplete="true"
+        placeholder="Colors"
       />
-      <label for="sizes"> Sizes </label>
-      <select
-        v-model="sizes"
-        multiple
+      <div class="justify-evenly flex">
+        <Checkbox
+          value="64"
+          label="64GB"
+        />
+        <Checkbox
+          value="128"
+          label="128GB"
+        />
+        <Checkbox
+          value="256"
+          label="256GB"
+        />
+      </div>
+      <label
+        class="sr-only"
+        for="price"
+        >Price</label
       >
-        <option value="small">Small</option>
-        <option value="medium">Medium</option>
-        <option value="large">Large</option>
-      </select>
-      <label for="price">Price</label>
       <input
         v-model="price"
         type="number"
         id="price"
         name="price"
         autocomplete="true"
+        placeholder="Price"
       />
-      <label for="quantity">Quantity</label>
+      <label
+        class="sr-only"
+        for="quantity"
+        >Quantity</label
+      >
       <input
         v-model="quantity"
         type="number"
         id="quantity"
         name="quantity"
         autocomplete="true"
+        placeholder="Quantity"
       />
-      <label for="category">Category</label>
+      <label
+        class="sr-only"
+        for="category"
+        >Category</label
+      >
       <select
+        class="bg-white"
         v-model="category"
         id="category"
         name="category"
         autocomplete="true"
+        placeholder="Category"
       >
+        <option
+          value=""
+          disabled
+          selected
+        >
+          Select Category
+        </option>
         <option
           v-for="category in categories"
           :key="category.id"
@@ -86,7 +133,11 @@ const { data: categories } = useQuery<Category[]>(
           {{ category.name }}
         </option>
       </select>
-      <label for="images">Images</label>
+      <label
+        class="sr-only"
+        for="images"
+        >Images</label
+      >
       <input
         type="file"
         id="images"
@@ -94,7 +145,12 @@ const { data: categories } = useQuery<Category[]>(
         autocomplete="true"
         multiple
       />
-      <button type="submit">Submit</button>
+      <button
+        class="hover:bg-green-500 px-4 py-2 text-white bg-green-600 rounded-md"
+        type="submit"
+      >
+        Submit
+      </button>
     </form>
   </div>
 </template>

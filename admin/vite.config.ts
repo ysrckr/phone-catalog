@@ -5,12 +5,7 @@ import path from 'path';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [
-    vue(),
-    vuetify({
-      autoImport: true,
-    }),
-  ],
+  plugins: [vue(), vuetify()],
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),

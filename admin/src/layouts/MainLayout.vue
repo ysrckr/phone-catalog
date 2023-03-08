@@ -14,7 +14,7 @@ const authStore = useAuthStore();
   }">
     <div class="relative md:grid md:grid-cols-4 md:mr-4">
       <Sidebar />
-      <main class="col-span-3 mt-20">
+      <main class="col-span-3 mt-10 mx-auto">
         <router-view></router-view>
       </main>
     </div>

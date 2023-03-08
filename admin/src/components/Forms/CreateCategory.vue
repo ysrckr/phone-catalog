@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref, watch } from 'vue';
+import { ref } from 'vue';
 import { useMutation } from '@tanstack/vue-query';
 import { createCategory } from '@/api/categories/create';
 import { toast } from 'vue3-toastify';
@@ -19,7 +19,7 @@ const createCategoryMutation = useMutation({
     toast.success('Category created');
     // invalidate query to update cache
     queryClient.invalidateQueries({
-      queryKey: ['categories']
+      queryKey: ['categories'],
     });
     // clear form
     name.value = '';
@@ -54,7 +54,7 @@ const onSubmit = () => {
 </script>
 
 <template>
-  <div class="flex flex-col m-8">
+  <div class="flex flex-col mt-8">
     <form
       class="gap-y-10 relative flex flex-col"
       @submit.prevent="onSubmit"

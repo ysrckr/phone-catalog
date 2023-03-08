@@ -5,12 +5,11 @@ const props = defineProps({
     required: true,
   },
 });
-
 </script>
 
 <template>
-  <div class="text-center bg-green-100 drop-shadow-lg font-semibold mx-auto p-4">
-    <h3 class="mb-5 p-2">{{ props.title }}</h3>
+  <div class="drop-shadow-lg p-4 m-8 font-semibold text-center bg-green-100">
+    <h3 class="p-2 mb-5">{{ props.title }}</h3>
     <slot></slot>
   </div>
 </template>

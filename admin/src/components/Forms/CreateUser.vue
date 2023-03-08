@@ -84,7 +84,7 @@ const onPasswordChange = () => {
 </script>
 
 <template>
-  <div class="container px-4 pb-5 mx-auto">
+  <div class="container px-4 pb-5">
     <form
       class="gap-x-4 gap-y-6 lg:grid-cols-2 xxl:grid-cols-4 flex flex-col items-center justify-center"
       @submit.prevent="onSubmit"
@@ -181,7 +181,7 @@ const onPasswordChange = () => {
       <select
         id="role"
         v-model="role"
-        class="border-1 drop-shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent border-gray-300"
+        class="border-1 drop-shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent bg-white border-gray-300"
       >
         <option
           disabled
