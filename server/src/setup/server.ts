@@ -22,6 +22,11 @@ export const startServer = (port: number) => {
     api_secret: process.env.CLOUDINARY_API_SECRET as string,
   });
 
+  // health check
+  app.get('/health', (req, res) => {
+    res.status(200).send('OK');
+  });
+
   // Routes
   app.use('/api/v1/products', clientCors, productsAdmin);
   app.use('/api/v1/categories', clientCors, categories);
