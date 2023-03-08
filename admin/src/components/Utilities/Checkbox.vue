@@ -2,6 +2,7 @@
 const props = defineProps<{
   value: string;
   label: string;
+  onChange: (e: Event) => void;
 }>();
 
 const { value, label } = props;
@@ -15,6 +16,7 @@ const { value, label } = props;
       :id="value"
       :name="value"
       :value="value"
+      @input="onChange"
     />
     <label :for="value">{{ label }}</label>
   </div>

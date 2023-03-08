@@ -4,26 +4,118 @@ import { useMutation, useQueryClient, useQuery } from '@tanstack/vue-query';
 import { Category } from '@/types/category';
 import { getAllCategories } from '@/api/categories/getAll';
 import Checkbox from '../Utilities/Checkbox.vue';
+import { createProduct } from '@/api/products/create';
+import { toast } from 'vue3-toastify';
+import { useRouter } from 'vue-router';
+import { Product } from '@/types/products';
+import { productSchema } from '../../types/products';
 
-const name = ref<string>();
-const description = ref<string>();
-const colors = ref<string[]>();
-const sizes = ref<string[]>();
-const price = ref<number>();
-const quantity = ref<number>();
+const name = ref<string>('');
+const description = ref<string>('');
+const colors = ref<string>('');
+const sizes = ref<string[]>([]);
+const price = ref<number>(0);
+const quantity = ref<number>(0);
 const category = ref<string>('');
+const images = ref<FileList | []>([]);
 
+const router = useRouter();
 const queryClient = useQueryClient();
 
 const { data: categories } = useQuery<Category[]>(
   ['categories'],
   getAllCategories,
 );
+
+const createProductMutation = useMutation({
+  mutationFn: createProduct,
+  onSuccess: () => {
+    toast.success('Product created');
+    // invalidate query to update cache
+    queryClient.invalidateQueries({
+      queryKey: ['products'],
+    });
+    // clear form
+    name.value = '';
+    description.value = '';
+    colors.value = '';
+    sizes.value = [];
+    price.value = 0;
+    quantity.value = 0;
+    category.value = '';
+
+    router.push('/products');
+  },
+  onError: () => {
+    toast.error('Error creating product');
+  },
+});
+
+// checkbox change handler
+const onCheckboxChange = (e: Event) => {
+  const target = e.target as HTMLInputElement;
+  if (target.checked) {
+    sizes.value.push(target.value);
+  } else {
+    sizes.value = sizes.value.filter((size) => size !== target.value);
+  }
+};
+
+// category change handler
+const onCategoryChange = (e: Event) => {
+  const target = e.target as HTMLInputElement;
+  category.value = target.value;
+};
+
+const onSubmit = () => {
+  const isValidProduct = productSchema.safeParse({
+    name: name.value,
+    description: description.value,
+    colors: colors.value.split(',') as string[],
+    sizes: sizes.value,
+    price: price.value,
+    quantity: quantity.value,
+    category: category.value,
+  }).success;
+
+  if (!isValidProduct) {
+    toast.error('Invalid product');
+    return;
+  }
+
+  const product: Product = {
+    name: name.value,
+    description: description.value,
+    colors: colors.value.split(',') as string[],
+    sizes: sizes.value,
+    price: price.value,
+    quantity: quantity.value,
+    category: category.value,
+    images: images.value,
+  };
+
+  const formData = new FormData();
+  formData.append('name', product.name);
+  formData.append('description', product.description);
+  formData.append('colors', JSON.stringify(product.colors));
+  formData.append('sizes', JSON.stringify(product.sizes));
+  formData.append('price', product.price.toString());
+  formData.append('quantity', product.quantity.toString());
+  formData.append('category', product.category);
+  for (let i = 0; i < product.images.length; i++) {
+    formData.append('images', product.images[i]);
+  }
+
+  createProductMutation.mutate(formData);
+};
 </script>
 
 <template>
   <div class="mx-auto">
-    <form class="gap-y-6 flex flex-col">
+    <form
+      class="gap-y-6 flex flex-col"
+      @submit.prevent="onSubmit"
+    >
       <label
         class="sr-only"
         for="name"
@@ -69,14 +161,17 @@ const { data: categories } = useQuery<Category[]>(
         <Checkbox
           value="64"
           label="64GB"
+          :onChange="onCheckboxChange"
         />
         <Checkbox
           value="128"
           label="128GB"
+          :onChange="onCheckboxChange"
         />
         <Checkbox
           value="256"
           label="256GB"
+          :onChange="onCheckboxChange"
         />
       </div>
       <label
@@ -129,6 +224,7 @@ const { data: categories } = useQuery<Category[]>(
           v-for="category in categories"
           :key="category.id"
           :value="category.id"
+          @input="onCategoryChange"
         >
           {{ category.name }}
         </option>

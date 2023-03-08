@@ -50,25 +50,29 @@ export const create = async ({
   quantity: number;
   categoryId: string;
 }) => {
-  const isValidName = z.string().min(1).safeParse(name).success;
-  const isValidImages = z.array(z.string()).safeParse(images).success;
-  const isValidColors = z.array(z.string()).safeParse(colors).success;
-  const isValidSizes = z.array(z.string()).safeParse(sizes).success;
-  const isValidDescription = z.string().min(1).safeParse(description).success;
-  const isValidPrice = z.number().min(0).safeParse(price).success;
-  const isValidQuantity = z.number().min(0).safeParse(quantity).success;
-  const isValidCategoryId = z.string().uuid().safeParse(categoryId).success;
+  const productSchema = z.object({
+    name: z.string().min(1),
+    images: z.array(z.string()).optional(),
+    colors: z.array(z.string()),
+    sizes: z.array(z.string()),
+    description: z.string().min(1),
+    price: z.number().min(0),
+    quantity: z.number().min(0),
+    categoryId: z.string().uuid(),
+  });
 
-  if (
-    !isValidName ||
-    !isValidImages ||
-    !isValidColors ||
-    !isValidSizes ||
-    !isValidDescription ||
-    !isValidPrice ||
-    !isValidQuantity ||
-    !isValidCategoryId
-  ) {
+  const isValid = productSchema.safeParse({
+    name,
+    images,
+    colors,
+    sizes,
+    description,
+    price,
+    quantity,
+    categoryId,
+  }).success;
+
+  if (!isValid) { 
     return { error: 'Invalid input' };
   }
 
