@@ -11,7 +11,7 @@ export const getAll = async () => {
   }
 };
 
-export const getOne = async (id: string) => {
+export const getById = async (id: string) => {
   const isValidId = z.string().uuid().safeParse(id).success;
 
   if (!isValidId) {
@@ -146,7 +146,7 @@ export const update = async({
   }
 
   try {
-    const product = await getOne(id);
+    const product = await getById(id);
     if (!product) {
       throw new Error('Product not found');
     }

@@ -11,7 +11,7 @@ export const getAll = async () => {
   }
 };
 
-export const getOne = async (id: string) => {
+export const getById = async (id: string) => {
   const isValidId = z.string().uuid().safeParse(id).success;
 
   if (!isValidId) {
@@ -116,7 +116,7 @@ export const remove = async (id: string) => {
   }
 
   try {
-    const category = await getOne(id);
+    const category = await getById(id);
     if (!category) {
       return { error: 'Category not found' };
     }
