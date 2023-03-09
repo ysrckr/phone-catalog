@@ -3,12 +3,12 @@ import { ref } from 'vue';
 import { useMutation, useQueryClient, useQuery } from '@tanstack/vue-query';
 import { Category } from '@/types/category';
 import { getAllCategories } from '@/api/categories/getAll';
-import Checkbox from '../Utilities/Checkbox.vue';
+import Checkbox from '@/components/Utilities/Checkbox.vue';
 import { createProduct } from '@/api/products/create';
 import { toast } from 'vue3-toastify';
 import { useRouter } from 'vue-router';
 import { Product } from '@/types/products';
-import { productSchema } from '../../types/products';
+import { productSchema } from '@/types/products';
 
 const name = ref<string>('');
 const description = ref<string>('');
@@ -17,7 +17,7 @@ const sizes = ref<string[]>([]);
 const price = ref<number>(0);
 const quantity = ref<number>(0);
 const category = ref<string>('');
-const images = ref<FileList | []>([]);
+const images = ref<File[]>([]);
 
 const router = useRouter();
 const queryClient = useQueryClient();
@@ -58,6 +58,16 @@ const onCheckboxChange = (e: Event) => {
     sizes.value.push(target.value);
   } else {
     sizes.value = sizes.value.filter((size) => size !== target.value);
+  }
+};
+
+// image change handler
+const onImageChange = (e: Event) => {
+  const target = e.target as HTMLInputElement;
+  const files = target.files as FileList;
+  images.value = [];
+  for (let i = 0; i < files.length; i++) {
+    images.value.push(files[i]);
   }
 };
 
@@ -102,8 +112,10 @@ const onSubmit = () => {
   formData.append('price', product.price.toString());
   formData.append('quantity', product.quantity.toString());
   formData.append('category', product.category);
-  for (let i = 0; i < product.images.length; i++) {
-    formData.append('images', product.images[i]);
+  if (product.images.length > 0) {
+    product.images.forEach((image) => {
+      formData.append('images', image);
+    });
   }
 
   createProductMutation.mutate(formData);
@@ -118,14 +130,14 @@ const onSubmit = () => {
     >
       <label
         class="sr-only"
-        for="name"
+        for="product_name"
         >Name</label
       >
       <input
         class="border-1 drop-shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent border-gray-300"
         v-model="name"
         type="text"
-        id="name"
+        id="product_name"
         name="name"
         autocomplete="true"
         placeholder="Product Name"
@@ -221,6 +233,7 @@ const onSubmit = () => {
           Select Category
         </option>
         <option
+          v-if="categories?.length !== 0"
           v-for="category in categories"
           :key="category.id"
           :value="category.id"
@@ -239,6 +252,7 @@ const onSubmit = () => {
         id="images"
         name="images"
         autocomplete="true"
+        @change="onImageChange"
         multiple
       />
       <button
