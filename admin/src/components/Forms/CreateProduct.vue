@@ -57,7 +57,7 @@ const onCheckboxChange = (e: Event) => {
   if (target.checked) {
     sizes.value.push(target.value);
   } else {
-    sizes.value = sizes.value.filter((size) => size !== target.value);
+    sizes.value = sizes.value.filter(size => size !== target.value);
   }
 };
 
@@ -101,7 +101,7 @@ const onSubmit = () => {
     price: price.value,
     quantity: quantity.value,
     category: category.value,
-    images: images.value,
+    images: [...images.value],
   };
 
   const formData = new FormData();
@@ -112,10 +112,15 @@ const onSubmit = () => {
   formData.append('price', product.price.toString());
   formData.append('quantity', product.quantity.toString());
   formData.append('category', product.category);
+  console.log('images', product.images);
   if (product.images.length > 0) {
-    product.images.forEach((image) => {
+    
+    product.images.forEach(image => {
+      console.log('image', image);
       formData.append('images', image);
     });
+
+    console.log('formData', formData.getAll('images'));
   }
 
   createProductMutation.mutate(formData);
