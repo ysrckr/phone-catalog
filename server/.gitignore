@@ -144,3 +144,5 @@ pgdata
 .flaskenv*
 !.env.project
 !.env.vault
+
+./uploads/*
