@@ -1,11 +1,11 @@
 import express from 'express';
-import multer from 'multer';
+import  { upload } from '../../utils/multer';
+
 import {
   create as createCategory,
   remove as removeCategory,
 } from '../../controllers/categoriesAdmin';
 
-const upload = multer({ dest: 'uploads/temp' });
 const singleUpload = upload.single('image');
 
 export const router = express.Router();
