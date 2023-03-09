@@ -27,6 +27,7 @@ It's a full stack web app with react, nodejs, express, postgres and typescript.
 - Tailwindcss
 - Vuetify
 - Material Design Icons
+- Zod
 - Vite
 
 ### Backend
@@ -41,3 +42,4 @@ It's a full stack web app with react, nodejs, express, postgres and typescript.
 - Multer
 - Bcrypt
 - Cloudinary
+- Zod
