@@ -1,6 +1,6 @@
 # phone-catalog
 
-It's a full stack web app with react, nodejs, express, postgres and typescript.
+It's a full stack web app with react, vue, nodejs, express, postgres and typescript.
 
 ## Complete List of Technologies Used
 
