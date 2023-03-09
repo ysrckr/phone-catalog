@@ -1,9 +1,8 @@
 import express from 'express';
-import multer from 'multer';
-
 import { create as createProduct } from '../../controllers/productsAdmin';
+import { upload } from '../../utils/multer';
 
-const upload = multer({ dest: 'uploads/temp' });
+
 const multipleUpload = upload.array('images');
 
 export const router = express.Router();
