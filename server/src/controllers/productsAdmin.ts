@@ -4,8 +4,10 @@ import { create as createProduct } from '../services/products';
 export const create = async (req: Request, res: Response) => {
   const { name, description, price, quantity, colors, sizes, category } =
     req.body;
-  console.log(req.body);
+  console.log('req.body', req.body);
   const images = req.files;
+  console.log('req.file', req.file);
+  console.log('req.files', req.files);
   console.log(images);
   if (
     !name ||
