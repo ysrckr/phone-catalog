@@ -53,8 +53,8 @@ export const create = async (req: Request, res: Response) => {
       colors,
       sizes,
       description,
-      price,
-      quantity,
+      price: Number(price),
+      quantity: Number(quantity),
       images: [],
       categoryId: category,
     });

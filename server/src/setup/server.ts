@@ -5,6 +5,7 @@ import { router as categoriesAdmin } from '../routes/adminRoutes/categoriesAdmin
 import { router as productsAdmin } from '../routes/adminRoutes/productsAdmin';
 import { router as usersAdmin } from '../routes/adminRoutes/usersAdmin';
 import { router as categories } from '../routes/categories/categories';
+import { router as products } from '../routes/products/products';
 import { adminCors, clientCors } from '../utils/cors';
 import { limiter } from '../utils/limiter';
 
@@ -28,7 +29,7 @@ export const startServer = (port: number) => {
   });
 
   // Routes
-  app.use('/api/v1/products', clientCors, productsAdmin);
+  app.use('/api/v1/products', clientCors, products);
   app.use('/api/v1/categories', clientCors, categories);
   app.use('/api/v1/admin', adminCors, usersAdmin);
   app.use('/api/v1/admin/categories', adminCors, checkAuth, categoriesAdmin);
