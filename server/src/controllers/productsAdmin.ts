@@ -19,7 +19,7 @@ export const create = async (req: Request, res: Response) => {
     return res.status(400).json({ error: 'Missing a value' });
   }
 
-  if (images) {
+  if (images.length > 0) {
     const imagePaths = images.map(image => image.path);
     const imagesCloudinary: string[] = [];
     try {

@@ -31,62 +31,39 @@ export const getById = async (id: string) => {
   }
 };
 
-// ! Not working
 export const create = async ({
   name,
-  images,
+  description,
   colors,
   sizes,
-  description,
+  images,
   price,
   quantity,
   categoryId,
 }: {
   name: string;
-  images: string[];
+  description: string;
   colors: string[];
   sizes: string[];
-  description: string;
+  images: string[];
   price: number;
   quantity: number;
   categoryId: string;
 }) => {
-  const productSchema = z.object({
-    name: z.string().min(1),
-    images: z.array(z.string()).optional(),
-    colors: z.array(z.string()),
-    sizes: z.array(z.string()),
-    description: z.string().min(1),
-    price: z.number().min(0),
-    quantity: z.number().min(0),
-    categoryId: z.string().uuid(),
-  });
-
-  const isValid = productSchema.safeParse({
+  const newProduct = {
     name,
-    images,
+    description,
     colors,
     sizes,
-    description,
+    images,
     price,
     quantity,
-    categoryId,
-  }).success;
-
-  if (!isValid) { 
-    return { error: 'Invalid input' };
-  }
+  };
 
   try {
-    const product = await prisma.product.create({
+    const createdProduct = await prisma.product.create({
       data: {
-        name,
-        images: images || [],
-        colors: colors || [],
-        sizes: sizes || [],
-        description: description || '',
-        price: price || 0,
-        quantity: quantity || 0,
+        ...newProduct,
         category: {
           connect: {
             id: categoryId,
@@ -94,14 +71,18 @@ export const create = async ({
         },
       },
     });
-    return product;
+
+    if (!createdProduct) {
+      throw new Error('Could not create a product');
+    }
+
+    return createdProduct;
   } catch (error) {
-    console.error(error);
-    throw error;
+    return new Error(error as string);
   }
 };
 
-export const update = async({
+export const update = async ({
   id,
   name,
   images,
@@ -121,7 +102,7 @@ export const update = async({
   price: number;
   quantity: number;
   categoryId: string;
-  }) => {
+}) => {
   const isValidId = z.string().uuid().safeParse(id).success;
   const isValidName = z.string().min(1).safeParse(name).success;
   const isValidImages = z.array(z.string()).safeParse(images).success;
@@ -131,7 +112,7 @@ export const update = async({
   const isValidPrice = z.number().min(0).safeParse(price).success;
   const isValidQuantity = z.number().min(0).safeParse(quantity).success;
   const isValidCategoryId = z.string().uuid().safeParse(categoryId).success;
-    
+
   if (
     !isValidId ||
     !isValidName ||
@@ -159,7 +140,6 @@ export const update = async({
     const newImages = [...prevImages, ...images];
     const newColors = [...prevColors, ...colors];
     const newSizes = [...prevSizes, ...sizes];
-
 
     const updatedProduct = await prisma.product.update({
       where: {
@@ -204,4 +184,4 @@ export const remove = async (id: string) => {
     console.error(error);
     throw error;
   }
-}
+};
