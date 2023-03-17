@@ -2,21 +2,31 @@
 import ProductsItem from '@/components/Items/ProductsItem.vue';
 import { useQuery } from '@tanstack/vue-query';
 import { getAllProducts } from '@/api/products/getAll';
+import { ProductResponse } from '../api/products/getAll';
+import Loading from '@/components/Utilities/Loader.vue';
+import Error from '@/components/Utilities/Error.vue';
 
-const {
-  data: products,
-  isLoading,
-  isError,
-} = useQuery(['products'], getAllProducts);
+const { data: products, isError, isLoading } = useQuery<ProductResponse[]>(
+  ['products'],
+  getAllProducts,
+);
+
+console.log(products)
 </script>
 
 <template>
   <div>
     <h1 class="mt-4 text-xl font-bold text-center">Products</h1>
-    <div v-if="isLoading" class="flex justify-center mt-4">
+    <div
+      v-if="isLoading"
+      class="flex justify-center mt-4"
+    >
       <Loading />
     </div>
-    <div v-if="isError" class="flex justify-center mt-4">
+    <div
+      v-if="isError"
+      class="flex justify-center mt-4"
+    >
       <Error />
     </div>
     <div

@@ -1,6 +1,12 @@
-import { axiosClient } from "@/utils/axiosClient";
+import { Product } from '@/types/products';
+import { axiosClient } from '@/utils/axiosClient';
 
-export const getAllProducts = async () => { 
-  const response = await axiosClient.get("/products");
-  return response;
+export interface ProductResponse extends Product {
+  id: string;
+}
+
+export const getAllProducts = async (): Promise<ProductResponse[]> => {
+  const response = await axiosClient.get('/products');
+  const data = await response.data;
+  return data;
 };
