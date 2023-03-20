@@ -27,19 +27,17 @@ export const create = async (req: Request, res: Response) => {
 
     const imagePaths = images.map(image => image.path);
     try {
-      imagePaths.forEach(path => {
-        uploadToCloudinary(
-          path,
-          cloudinaryDefaultUploadOptions,
-        )
-          .then(image => imagesCloudinary.push(image?.secure_url as string))
-          .catch(error => { 
-            console.error(error);
-            return res.status(500).json({ error: 'Internal server error' });
-          });
-      });
+      for (const imagePath of imagePaths) {
+        const imageCloudinary = await uploadToCloudinary(
+          imagePath,
+          cloudinaryDefaultUploadOptions
+        );
+        imagesCloudinary.push(imageCloudinary?.secure_url as string);
+      }
 
-      console.log(imagesCloudinary);
+      if (imagesCloudinary.length !== images.length) {
+        return res.status(500).json({ error: 'Internal server error' });
+      }
 
       const product = await createProduct({
         name,
