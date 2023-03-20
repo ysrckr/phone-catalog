@@ -1,6 +1,9 @@
 import type { Request, Response } from 'express';
 import { create as createProduct } from '../services/products';
-import {uploadToCloudinary, cloudinaryDefaultUploadOptions } from '../utils/uploadToCloudinary';
+import {
+  cloudinaryDefaultUploadOptions,
+  uploadToCloudinary,
+} from '../utils/uploadToCloudinary';
 
 export const create = async (req: Request, res: Response) => {
   const { name, description, price, quantity, colors, sizes, category } =
@@ -20,16 +23,23 @@ export const create = async (req: Request, res: Response) => {
   }
 
   if (images.length > 0) {
-    const imagePaths = images.map(image => image.path);
     const imagesCloudinary: string[] = [];
+
+    const imagePaths = images.map(image => image.path);
     try {
-      imagePaths.forEach(async path => {
-        const result = await uploadToCloudinary(path, cloudinaryDefaultUploadOptions);
-        if (!result) {
-          return res.status(500).json({ error: 'Error uploading file' });
-        }
-        imagesCloudinary.push(result.secure_url);
+      imagePaths.forEach(path => {
+        uploadToCloudinary(
+          path,
+          cloudinaryDefaultUploadOptions,
+        )
+          .then(image => imagesCloudinary.push(image?.secure_url as string))
+          .catch(error => { 
+            console.error(error);
+            return res.status(500).json({ error: 'Internal server error' });
+          });
       });
+
+      console.log(imagesCloudinary);
 
       const product = await createProduct({
         name,
@@ -38,9 +48,13 @@ export const create = async (req: Request, res: Response) => {
         description,
         price: Number(price),
         quantity: Number(quantity),
-        images: imagesCloudinary,
+        images: [...imagesCloudinary],
         categoryId: category,
       });
+      if (!product) {
+        return res.status(500).json({ error: 'Internal server error' });
+      }
+
       return res.status(201).json(product);
     } catch (error) {
       return res.status(500).json({ error: 'Internal server error' });
