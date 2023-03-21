@@ -10,7 +10,7 @@ const selectedImage = ref(0);
 const { images } = props;
 </script>
 <template>
-  <div>
+  <div class="flex flex-col gap-2">
     <div>
       <img
         class="w-64 h-64 object-cover"
@@ -18,7 +18,7 @@ const { images } = props;
         :alt="images[selectedImage]"
       />
     </div>
-    <div>
+    <div class="flex gap-2">
       <button
         v-for="(image, index) in images"
         :key="index"
