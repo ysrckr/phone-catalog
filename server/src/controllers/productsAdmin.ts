@@ -4,6 +4,7 @@ import {
   cloudinaryDefaultUploadOptions,
   uploadToCloudinary,
 } from '../utils/uploadToCloudinary';
+import { remove as removeProduct } from '../services/products';
 
 export const create = async (req: Request, res: Response) => {
   const { name, description, price, quantity, colors, sizes, category } =
@@ -71,6 +72,16 @@ export const create = async (req: Request, res: Response) => {
       categoryId: category,
     });
     return res.status(201).json(product);
+  } catch (error) {
+    return res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+export const remove = async (req: Request, res: Response) => { 
+  const { id } = req.params;
+  try {
+    const product = await removeProduct(id);
+    return res.status(200).json(product);
   } catch (error) {
     return res.status(500).json({ error: 'Internal server error' });
   }
