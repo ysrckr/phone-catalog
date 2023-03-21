@@ -2,6 +2,24 @@
 import { Product } from '../../types/products';
 import ButtonWithIcon from '../Utilities/ButtonWithIcon.vue';
 import ImageItem from './ImageItem.vue';
+import { useQueryClient, useMutation } from '@tanstack/vue-query';
+import { remove as removeProduct } from '@/api/products/remove';
+
+const queryClient = useQueryClient();
+
+const deleteProductMutation = useMutation({
+  mutationFn: (id: string) => removeProduct(id),
+  onSuccess: () => {
+    console.log('Product deleted');
+    queryClient.invalidateQueries({
+      queryKey: ['products'],
+    });
+  },
+});
+
+const deleteProduct = (id: string) => {
+  deleteProductMutation.mutate(id);
+};
 
 const props = defineProps<{
   product: Product;
@@ -23,7 +41,11 @@ const { product } = props;
       <ButtonWithIcon icon="pencil" class="hover:bg-yellow-300 inline-flex items-center gap-2 py-2 pl-2 pr-4 text-gray-600 bg-yellow-400 rounded-md">
         Edit
       </ButtonWithIcon>
-      <ButtonWithIcon icon="delete" class="hover:bg-red-300 inline-flex items-center gap-2 py-2 pl-2 pr-4 text-white bg-red-400 rounded-md">
+      <ButtonWithIcon 
+        icon="delete" 
+        class="hover:bg-red-300 inline-flex items-center gap-2 py-2 pl-2 pr-4 text-white bg-red-400 rounded-md"
+        @click="deleteProduct(product?.id || '')"
+      >
         Delete
       </ButtonWithIcon>
     </div>
