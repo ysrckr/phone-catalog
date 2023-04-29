@@ -1,10 +1,12 @@
 import type { Request, Response } from 'express';
-import { create as createProduct } from '../services/products';
+import {
+  create as createProduct,
+  remove as removeProduct,
+} from '../services/products';
 import {
   cloudinaryDefaultUploadOptions,
   uploadToCloudinary,
 } from '../utils/uploadToCloudinary';
-import { remove as removeProduct } from '../services/products';
 
 export const create = async (req: Request, res: Response) => {
   const { name, description, price, quantity, colors, sizes, category } =
@@ -31,7 +33,7 @@ export const create = async (req: Request, res: Response) => {
       for (const imagePath of imagePaths) {
         const imageCloudinary = await uploadToCloudinary(
           imagePath,
-          cloudinaryDefaultUploadOptions
+          cloudinaryDefaultUploadOptions,
         );
         imagesCloudinary.push(imageCloudinary?.secure_url as string);
       }
@@ -77,7 +79,7 @@ export const create = async (req: Request, res: Response) => {
   }
 };
 
-export const remove = async (req: Request, res: Response) => { 
+export const remove = async (req: Request, res: Response) => {
   const { id } = req.params;
   try {
     const product = await removeProduct(id);

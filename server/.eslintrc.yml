@@ -18,18 +18,18 @@ plugins:
   - import
   - unused-imports
 rules:
-  {
-    'camelcase': 'error',
-    'spaced-comment': 'error',
-    'quotes': ['error', 'single'],
-    'no-duplicate-imports': ['error', 'includeExports': true],
-    '@typescript-eslint/no-unused-vars':
+  prettier/prettier: ['error']
+  camelcase: 'error'
+  spaced-comment: 'error'
+  quotes: ['error', 'single']
+  no-duplicate-imports: ['error', 'includeExports': true]
+  '@typescript-eslint/no-unused-vars':
       [
         'error',
         { 'vars': 'all', 'args': 'after-used', 'ignoreRestSiblings': false },
-      ],
-    'unused-imports/no-unused-imports': 'error',
-    'unused-imports/no-unused-vars':
+      ]
+  unused-imports/no-unused-imports': 'error'
+  unused-imports/no-unused-vars:
       [
         'warn',
         {
@@ -38,13 +38,18 @@ rules:
           'args': 'after-used',
           'argsIgnorePattern': '^_',
         },
-      ],
-    'keyword-spacing': ['error', { 'before': true }],
-    'jsx-quotes': [2, 'prefer-double'],
-    'no-trailing-spaces': ['error', { 'ignoreComments': true }],
-    'import/no-unresolved': 'error',
-    'prettier/prettier': 'error',
-    'arrow-body-style': 'off',
-    'prefer-arrow-callback': 'off',
-  }
+      ]
+  keyword-spacing: ['error', { 'before': true }]
+  no-trailing-spaces: ['error', { 'ignoreComments': true }]
+  import/no-unresolved: 'error'
+  arrow-body-style: 'error'
+  prefer-arrow-callback: 'error'
+  eqeqeq': ['error', 'always']
+  prefer-const: 'error'
+  no-var: 'error'
+  curly: 'error'
+  no-else-return: 'error'
+  object-curly-spacing: ['error', 'always']
+  brace-style: ['error', '1tbs', { 'allowSingleLine': false }]
+  strict: ['error', 'global']
 settings: { 'import/resolver': { 'typescript': { true } } }

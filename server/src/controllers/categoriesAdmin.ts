@@ -1,9 +1,9 @@
-import type { Request, Response } from 'express';
+import type { Request,Response } from 'express';
 import fs from 'fs';
-import { create as createCategory, remove as removeCategory } from '../services/categories';
+import { create as createCategory,remove as removeCategory } from '../services/categories';
 import {
-  cloudinaryDefaultUploadOptions,
-  uploadToCloudinary,
+cloudinaryDefaultUploadOptions,
+uploadToCloudinary
 } from '../utils/uploadToCloudinary';
 
 export const create = async (req: Request, res: Response) => {
@@ -54,7 +54,17 @@ export const create = async (req: Request, res: Response) => {
   }
 };
 
-export const remove = async (req: Request, res: Response) => { 
+export const update = async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  if (!id) {
+    return res.status(400).json({ error: 'Missing id' });
+  }
+
+ 
+};
+
+export const remove = async (req: Request, res: Response) => {
   const { id } = req.params;
   try {
     await removeCategory(id);
