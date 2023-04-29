@@ -1,9 +1,13 @@
-import type { Request,Response } from 'express';
+import type { Request, Response } from 'express';
 import fs from 'fs';
-import { create as createCategory,remove as removeCategory } from '../services/categories';
 import {
-cloudinaryDefaultUploadOptions,
-uploadToCloudinary
+  create as createCategory,
+  remove as removeCategory,
+  update as updateCategory,
+} from '../services/categories';
+import {
+  cloudinaryDefaultUploadOptions,
+  uploadToCloudinary,
 } from '../utils/uploadToCloudinary';
 
 export const create = async (req: Request, res: Response) => {
@@ -17,7 +21,10 @@ export const create = async (req: Request, res: Response) => {
   if (image) {
     const { path } = image;
     try {
-      const result = await uploadToCloudinary(path, cloudinaryDefaultUploadOptions);
+      const result = await uploadToCloudinary(
+        path,
+        cloudinaryDefaultUploadOptions,
+      );
 
       if (!result) {
         return res.status(500).json({ error: 'Error uploading file' });
@@ -61,7 +68,27 @@ export const update = async (req: Request, res: Response) => {
     return res.status(400).json({ error: 'Missing id' });
   }
 
- 
+  const { name } = req.body;
+
+  if (!name) {
+    return res.status(400).json({ error: 'Missing name' });
+  }
+
+  const image = req.file;
+
+  try {
+    const category = await updateCategory({
+      id,
+      name,
+      image: image?.path || '',
+    });
+
+    if (!category) {
+      return res.status(404).json({ error: 'No Category Found' });
+    }
+  } catch (error) {
+    return res.status(500).json({ error: 'Internal server error' });
+  }
 };
 
 export const remove = async (req: Request, res: Response) => {
