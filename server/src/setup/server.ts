@@ -8,6 +8,7 @@ import { router as categories } from '../routes/categories/categories';
 import { router as products } from '../routes/products/products';
 import { adminCors, clientCors } from '../utils/cors';
 import { limiter } from '../utils/limiter';
+import { errorHandler } from '../middleware/error';
 
 export const startServer = (port: number) => {
   const app = express();
@@ -34,6 +35,9 @@ export const startServer = (port: number) => {
   app.use('/api/v1/admin', adminCors, usersAdmin);
   app.use('/api/v1/admin/categories', adminCors, checkAuth, categoriesAdmin);
   app.use('/api/v1/admin/products', adminCors, checkAuth, productsAdmin);
+
+  // Error Middleware
+  app.use(errorHandler);
 
   // Start server
   app.listen(port, () => {
